@@ -1,17 +1,17 @@
-const STORAGE_KEY = "signaldesk-jep-workspace-v1";
+const STORAGE_KEY = "signaldesk-jep-template-v2";
 
 const phaseOrder = {
-  Solutioning: 0,
-  "Phase 1": 1,
-  "Phase 2": 2,
+  Discovery: 0,
+  "Mutual Plan": 1,
+  Validation: 2,
   Decision: 3
 };
 
 const stageLabels = {
   align: "Align",
-  design: "Design",
+  design: "Plan",
   validate: "Validate",
-  decide: "Decide"
+  decide: "Advance"
 };
 
 const milestoneStatusLabels = {
@@ -23,10 +23,10 @@ const milestoneStatusLabels = {
 };
 
 const criteriaStatusLabels = {
-  "not-tested": "Not tested",
-  watch: "Watch",
-  pass: "Pass",
-  fail: "Fail"
+  "not-tested": "Not reviewed",
+  watch: "In review",
+  pass: "Met",
+  fail: "Missed"
 };
 
 const actionStatusLabels = {
@@ -52,231 +52,107 @@ const importanceLabels = {
 
 const demoData = {
   overview: {
-    accountName: "HubSpot",
-    champion: "Sawyer Hulme",
-    execSponsor: "Michal",
-    solutionName: "TiDB Joint Pilot",
-    currentStage: "validate",
+    accountName: "",
+    accountExecutive: "",
+    salesEngineer: "",
+    customerLead: "",
+    solutionName: "",
+    currentStage: "align",
     programHealth: "on-track",
-    decisionDate: "2026-04-30",
-    primaryOutcome:
-      "Prove TiDB can support HubSpot's search and analytics workloads with lower operational overhead and a credible production path.",
-    successDefinition:
-      "Align on the use cases that matter, run the agreed benchmarks, verify the latency and throughput targets, and leave the pilot with a clear go/no-go decision and rollout path.",
-    whyNow:
-      "The account needs a path that scales beyond the current search and warehouse split without adding more latency, cost, and platform complexity.",
-    decisionNotes:
-      "The buying conversation depends on benchmark credibility, architecture confidence for self-managed deployment, and enough proof that TiDB can absorb the critical query paths."
+    decisionDate: "",
+    primaryOutcome: "",
+    successDefinition: "",
+    whyNow: "",
+    decisionNotes: ""
   },
   milestones: [
     {
       id: "ms-1",
-      phase: "Solutioning",
-      stage: "Solutioning",
-      task: "NDA signed",
-      owner: "Sawyer / Michal",
-      plannedWindow: "Week 1",
-      dueDate: "2026-03-04",
-      status: "complete",
-      notes: "Commercial access and initial discovery are already unlocked."
+      phase: "Discovery",
+      stage: "Discovery",
+      task: "Customer goals and stakeholders aligned",
+      owner: "AE / Customer",
+      plannedWindow: "",
+      dueDate: "",
+      status: "not-started",
+      notes: "Use this for the moment the team agrees what matters, who is involved, and why the deal is moving now."
     },
     {
       id: "ms-2",
-      phase: "Solutioning",
-      stage: "Solutioning",
-      task: "Solution confirmed",
-      owner: "Kyle / Michal",
-      plannedWindow: "Week 1",
-      dueDate: "2026-03-06",
-      status: "complete",
-      notes: "Team alignment is now centered on a TiDB pilot rather than a generic evaluation."
+      phase: "Mutual Plan",
+      stage: "Mutual Plan",
+      task: "Joint execution plan reviewed with the customer",
+      owner: "AE / SE / Customer",
+      plannedWindow: "",
+      dueDate: "",
+      status: "not-started",
+      notes: "Use this as the checkpoint where owners, criteria, and next steps are mutually visible."
     },
     {
       id: "ms-3",
-      phase: "Phase 1",
-      stage: "PoC Prep",
-      task: "Success criteria defined",
-      owner: "Kyle / Michal",
-      plannedWindow: "Week 2",
-      dueDate: "2026-03-13",
-      status: "complete",
-      notes: "The high-value workload and query targets are visible in the criteria board."
+      phase: "Validation",
+      stage: "Validation",
+      task: "Technical and business proof points completed",
+      owner: "SE / Customer",
+      plannedWindow: "",
+      dueDate: "",
+      status: "not-started",
+      notes: "Use this for demos, workshops, proof sessions, references, or any validation the deal needs."
     },
     {
       id: "ms-4",
-      phase: "Phase 1",
-      stage: "PoC Prep",
-      task: "Finalize PoC test plan",
-      owner: "Kyle / Michal",
-      plannedWindow: "Week 2",
-      dueDate: "2026-03-14",
-      status: "on-track",
-      notes: "Need the final query bundle and the agreed benchmark sequence."
-    },
-    {
-      id: "ms-5",
-      phase: "Phase 1",
-      stage: "PoC",
-      task: "Phase 1 PoC start",
-      owner: "Joint team",
-      plannedWindow: "Week 3",
-      dueDate: "2026-03-17",
-      status: "on-track",
-      notes: "Cloud-based validation starts once connectivity and benchmark inputs are locked."
-    },
-    {
-      id: "ms-6",
-      phase: "Phase 1",
-      stage: "Validate Results",
-      task: "Review Phase 1 results",
-      owner: "Kyle / Michal",
-      plannedWindow: "Week 4",
-      dueDate: "2026-03-28",
-      status: "not-started",
-      notes: "Decision gate for whether the pilot expands to the self-managed path."
-    },
-    {
-      id: "ms-7",
-      phase: "Phase 2",
-      stage: "PoC Prep",
-      task: "Define self-managed architecture and sizing",
-      owner: "Kyle / Michal",
-      plannedWindow: "Week 5",
-      dueDate: "2026-04-03",
-      status: "not-started",
-      notes: "Needs final topology assumptions and service split decisions."
-    },
-    {
-      id: "ms-8",
-      phase: "Phase 2",
-      stage: "PoC",
-      task: "Mixed workload validation",
-      owner: "Joint team",
-      plannedWindow: "Week 7",
-      dueDate: "2026-04-15",
-      status: "not-started",
-      notes: "Focus on ingestion plus search/read concurrency."
-    },
-    {
-      id: "ms-9",
       phase: "Decision",
-      stage: "Contract Prep",
-      task: "Commercial review",
-      owner: "Sawyer / Michal",
-      plannedWindow: "Week 8",
-      dueDate: "2026-04-24",
+      stage: "Decision",
+      task: "Commercial next step and decision process confirmed",
+      owner: "AE / Customer",
+      plannedWindow: "",
+      dueDate: "",
       status: "not-started",
-      notes: "Only opens after the success criteria are credible and the architecture path is agreed."
-    },
-    {
-      id: "ms-10",
-      phase: "Decision",
-      stage: "Executive Decision",
-      task: "Go / no-go call",
-      owner: "Buying committee",
-      plannedWindow: "Week 9",
-      dueDate: "2026-04-30",
-      status: "blocked",
-      notes: "Blocked by incomplete benchmark evidence and unresolved self-managed assumptions."
+      notes: "Use this for proposal, procurement, security, or executive alignment steps that move the deal forward."
     }
   ],
   criteria: [
     {
       id: "cr-1",
-      useCase: "UPSERT with low data latency on the object workload",
+      useCase: "Customer outcome is clearly defined",
       importance: "critical",
-      requiresTestPlan: true,
-      status: "watch",
+      requiresTestPlan: false,
+      status: "not-tested",
       metricTarget:
-        "Target latency is closer to Elasticsearch than Snowflake. Capture real observed latency during streaming ingestion, ideally below 10 seconds.",
-      verifiedBy: "Joint team",
-      notes: "Important because the replacement cannot increase freshness lag materially."
+        "Capture the business outcome, the customer language for success, and what would make them say yes to the next step.",
+      verifiedBy: "",
+      notes: ""
     },
     {
       id: "cr-2",
-      useCase: "JOIN support across the operational model",
-      importance: "critical",
-      requiresTestPlan: true,
-      status: "not-tested",
-      metricTarget:
-        "Test join-heavy SQL paths that are not available in the current Elasticsearch stack and compare the cost and latency against the warehouse path.",
-      verifiedBy: "",
-      notes: "This is part of the strategic reason to evaluate TiDB."
-    },
-    {
-      id: "cr-3",
-      useCase: "Full analytic SQL for Snowflake-style use cases",
+      useCase: "Technical validation criteria are agreed",
       importance: "high",
       requiresTestPlan: true,
       status: "not-tested",
       metricTarget:
-        "Use a representative query set with joins, aggregations, and window functions. Lower QPS is acceptable if the economics and performance are credible.",
+        "List the technical proof points, the owner of each one, and the evidence needed to call them complete.",
+      verifiedBy: "",
+      notes: ""
+    },
+    {
+      id: "cr-3",
+      useCase: "Buying process and stakeholders are mapped",
+      importance: "critical",
+      requiresTestPlan: false,
+      status: "not-tested",
+      metricTarget:
+        "Identify the customer lead, decision makers, blockers, and what approvals must happen before the deal can advance.",
       verifiedBy: "",
       notes: ""
     },
     {
       id: "cr-4",
-      useCase: "High QPS / low-latency reads",
-      importance: "critical",
-      requiresTestPlan: true,
-      status: "pass",
-      metricTarget:
-        "Read SQL simple and complex paths should aim for sub-second p99 at meaningful query volume.",
-      verifiedBy: "TiDB SA",
-      notes: "Early benchmark path is encouraging, but the full customer set still needs review."
-    },
-    {
-      id: "cr-5",
-      useCase: "Partial record update support",
+      useCase: "Next-step decision path is mutually aligned",
       importance: "high",
-      requiresTestPlan: true,
-      status: "watch",
-      metricTarget:
-        "Verify partial updates can reduce system impact versus the current Elasticsearch model at production-relevant rates.",
-      verifiedBy: "Joint team",
-      notes: "Needs tighter workload definition."
-    },
-    {
-      id: "cr-6",
-      useCase: "Compute and storage separation",
-      importance: "medium",
       requiresTestPlan: false,
-      status: "pass",
-      metricTarget:
-        "Confirm the architecture can scale read and storage pressure independently enough for the target use case.",
-      verifiedBy: "Architecture review",
-      notes: "Covered in the architecture and sizing discussion."
-    },
-    {
-      id: "cr-7",
-      useCase: "Fast search on arbitrary properties",
-      importance: "critical",
-      requiresTestPlan: true,
-      status: "watch",
-      metricTarget:
-        "Validate that semi-structured property filtering, search, and aggregation remain usable for customer-facing query paths.",
-      verifiedBy: "",
-      notes: "Needs concrete benchmark coverage from the actual application patterns."
-    },
-    {
-      id: "cr-8",
-      useCase: "Write SQL throughput",
-      importance: "high",
-      requiresTestPlan: true,
-      status: "pass",
-      metricTarget:
-        "Acceptable test is a meaningful load on the chosen cluster shape. Example target: 5k writes per second with measurement during read pressure.",
-      verifiedBy: "TiDB team",
-      notes: ""
-    },
-    {
-      id: "cr-9",
-      useCase: "Join SQL at query volume",
-      importance: "high",
-      requiresTestPlan: true,
       status: "not-tested",
       metricTarget:
-        "Aim for 2 to 3 second p99 on representative join workloads, understanding some larger queries may need more latency budget.",
+        "Define the next checkpoint, expected outcome, and the commercial or technical actions needed to get there.",
       verifiedBy: "",
       notes: ""
     }
@@ -284,286 +160,87 @@ const demoData = {
   testTasks: [
     {
       id: "tt-1",
-      phase: "Phase 1",
-      stage: "PoC Prep",
-      task: "Scope PoC testing scenario",
-      assignee: "Joint team",
-      status: "complete",
-      startDate: "2026-03-04",
-      duration: "2 days",
+      phase: "Discovery",
+      stage: "Discovery",
+      task: "Gather current workflow, goals, and risks",
+      assignee: "AE / SE",
+      status: "not-started",
+      startDate: "",
+      duration: "",
       isMilestone: false,
-      notes: "Business scenario and first-pass data volume are agreed."
+      notes: "Use this for account prep, stakeholder mapping, and problem framing."
     },
     {
       id: "tt-2",
-      phase: "Phase 1",
-      stage: "PoC Prep",
-      task: "Define test cases with success criteria",
-      assignee: "Kyle / Michal",
-      status: "complete",
-      startDate: "2026-03-05",
-      duration: "2 days",
-      isMilestone: false,
-      notes: "Linked directly to the success criteria board."
+      phase: "Mutual Plan",
+      stage: "Planning",
+      task: "Review the JEP with the customer and confirm owners",
+      assignee: "AE / Customer",
+      status: "not-started",
+      startDate: "",
+      duration: "",
+      isMilestone: true,
+      notes: "Use this to confirm who owns each workstream and what needs to happen next."
     },
     {
       id: "tt-3",
-      phase: "Phase 1",
-      stage: "Setup",
-      task: "Create TiDB Cloud org and user access",
-      assignee: "TiDB team",
-      status: "complete",
-      startDate: "2026-03-07",
-      duration: "1 day",
+      phase: "Validation",
+      stage: "Validation",
+      task: "Run workshops, demos, or proof sessions",
+      assignee: "SE / Customer",
+      status: "not-started",
+      startDate: "",
+      duration: "",
       isMilestone: false,
-      notes: ""
+      notes: "Use this for technical validation, business alignment, or internal review sessions."
     },
     {
       id: "tt-4",
-      phase: "Phase 1",
-      stage: "Setup",
-      task: "Set up connectivity and cluster access",
-      assignee: "Joint team",
-      status: "in-progress",
-      startDate: "2026-03-10",
-      duration: "3 days",
+      phase: "Decision",
+      stage: "Decision",
+      task: "Summarize findings and confirm the next commercial step",
+      assignee: "AE",
+      status: "not-started",
+      startDate: "",
+      duration: "",
       isMilestone: true,
-      notes: "Dependent on the final network and credential handoff."
-    },
-    {
-      id: "tt-5",
-      phase: "Phase 1",
-      stage: "Test 1: Perf / Search query",
-      task: "Run the business benchmark",
-      assignee: "HubSpot + TiDB",
-      status: "not-started",
-      startDate: "2026-03-17",
-      duration: "4 days",
-      isMilestone: false,
-      notes: "Waiting for final benchmark query set."
-    },
-    {
-      id: "tt-6",
-      phase: "Phase 1",
-      stage: "Test 2: Data ingestion",
-      task: "Run data ingest process around 40K RPS",
-      assignee: "TiDB team",
-      status: "not-started",
-      startDate: "2026-03-20",
-      duration: "3 days",
-      isMilestone: false,
-      notes: ""
-    },
-    {
-      id: "tt-7",
-      phase: "Phase 2",
-      stage: "Setup",
-      task: "Generate the 15 TB data and stage in object storage",
-      assignee: "HubSpot team",
-      status: "not-started",
-      startDate: "2026-04-02",
-      duration: "5 days",
-      isMilestone: false,
-      notes: ""
-    },
-    {
-      id: "tt-8",
-      phase: "Phase 2",
-      stage: "Setup",
-      task: "15 TB data ingestion via import workflow",
-      assignee: "TiDB team",
-      status: "not-started",
-      startDate: "2026-04-08",
-      duration: "5 days",
-      isMilestone: true,
-      notes: "Key self-managed readiness milestone."
-    },
-    {
-      id: "tt-9",
-      phase: "Phase 2",
-      stage: "Test 3: Mixed workload",
-      task: "Run mixed workload with updates plus search queries",
-      assignee: "Joint team",
-      status: "not-started",
-      startDate: "2026-04-15",
-      duration: "4 days",
-      isMilestone: false,
-      notes: "Should validate ingestion and read concurrency in one test."
+      notes: "Use this to wrap the work, align the story, and advance the deal."
     }
   ],
-  actions: [
-    {
-      id: "ac-1",
-      title: "Scope pilot testing scenario",
-      owner: "Joint team",
-      createdDate: "2026-03-11",
-      dueDate: "2026-03-13",
-      status: "in-progress",
-      notes:
-        "Choose the core business scenario and the first production-relevant data slice."
-    },
-    {
-      id: "ac-2",
-      title: "Lock success criteria and benchmark targets",
-      owner: "Kyle / Michal",
-      createdDate: "2026-03-11",
-      dueDate: "2026-03-14",
-      status: "open",
-      notes:
-        "Include QPS, latency, and what counts as acceptable inference for scale."
-    },
-    {
-      id: "ac-3",
-      title: "Collect schema, top SQL, and workload queries",
-      owner: "HubSpot data team",
-      createdDate: "2026-03-11",
-      dueDate: "2026-03-18",
-      status: "open",
-      notes: "Need the representative query set before the main benchmark run."
-    },
-    {
-      id: "ac-4",
-      title: "Finalize the pilot use cases",
-      owner: "Sawyer / TiDB SA",
-      createdDate: "2026-03-11",
-      dueDate: "2026-03-19",
-      status: "waiting",
-      notes: "Depends on query review and scenario sign-off."
-    }
-  ],
-  issues: [
-    {
-      id: "is-1",
-      title: "Final benchmark query set is not fully approved",
-      owner: "HubSpot data team",
-      createdDate: "2026-03-11",
-      status: "open",
-      impact: "high",
-      notes:
-        "This directly slows the main benchmark work and weakens the credibility of any early performance result."
-    },
-    {
-      id: "is-2",
-      title: "Self-managed topology assumptions still need alignment",
-      owner: "TiDB team",
-      createdDate: "2026-03-11",
-      status: "mitigating",
-      impact: "medium",
-      notes:
-        "Sizing, service split, and rollout shape are directionally defined but not yet signed off."
-    }
-  ],
+  actions: [],
+  issues: [],
   discovery: [
     {
       id: "dc-1",
-      category: "Data Sources",
-      question:
-        "For the data stores in scope, what types of data are expected and how much semi-structured content needs to be searchable?",
-      answer:
-        "Structured data plus some semi-structured JSON. There is also occasional protobuf-style unstructured payload data.",
+      category: "Business outcome",
+      question: "What business result matters most to the customer right now?",
+      answer: "",
       important: true
     },
     {
       id: "dc-2",
-      category: "Data Volume",
-      question:
-        "What are the indicative data volumes and growth assumptions for the services in scope?",
-      answer:
-        "Roughly 10 to 15 TiB per service today, growing around 30 percent per year. Overall online platform volume is materially larger.",
+      category: "Stakeholders",
+      question: "Which internal and customer stakeholders need to approve or support next steps?",
+      answer: "",
       important: true
     },
     {
       id: "dc-3",
-      category: "Value",
-      question:
-        "What is the ideal business outcome of adopting TiDB if the pilot succeeds?",
-      answer:
-        "Higher scale, stronger availability, and lower management overhead than the current split architecture.",
+      category: "Workflow",
+      question: "What current workflow, process, or tools are in scope for this deal?",
+      answer: "",
       important: true
     },
     {
       id: "dc-4",
-      category: "Performance",
-      question: "What are the QPS and latency expectations for the new platform?",
-      answer:
-        "Expectation is 100k+ QPS with room to scale materially higher, while staying close to regular MySQL latency expectations.",
-      important: true
-    },
-    {
-      id: "dc-5",
-      category: "Availability",
-      question: "What are the RPO and RTO expectations?",
-      answer: "Zero RPO and low RTO within region. Cross-region is not in scope today.",
+      category: "Risks",
+      question: "What could slow this deal down or cause the plan to slip?",
+      answer: "",
       important: true
     }
   ],
-  architecture: [
-    {
-      id: "ar-1",
-      system: "HBase",
-      role:
-        "Source of truth for the online platform and optimized for OLTP-style lookups and writes.",
-      strengths: "Excellent mutation throughput and point lookups.",
-      constraints:
-        "Poor fit for broad scans, aggregation-heavy analysis, and richer reporting patterns."
-    },
-    {
-      id: "ar-2",
-      system: "Elasticsearch",
-      role:
-        "Search and reporting layer used for customer-facing filtering and query-heavy paths.",
-      strengths: "Strong high-QPS search and aggregation behavior for the current experience.",
-      constraints:
-        "Data freshness lag from the source system and no native join support for broader analytical patterns."
-    },
-    {
-      id: "ar-3",
-      system: "Snowflake",
-      role:
-        "Warehouse layer used for richer SQL and join-oriented analysis that the online stack cannot support directly.",
-      strengths: "Good fit for complex joins and warehouse-style query paths.",
-      constraints:
-        "Expensive, not self-hosted, and creates architectural friction for the current operating model."
-    },
-    {
-      id: "ar-4",
-      system: "TiDB target path",
-      role:
-        "Candidate platform intended to consolidate more of the online search and analytical workload into one operational model.",
-      strengths: "Potential to unify operational scale with richer SQL access and clearer horizontal scaling paths.",
-      constraints:
-        "Must prove benchmark credibility, deployment fit, and operational readiness before the account will move."
-    }
-  ],
-  sizing: [
-    {
-      id: "sz-1",
-      phase: "Phase 2",
-      component: "TiDB node",
-      configuration: "32 vCPU / 128 GiB",
-      storage: "N/A",
-      count: 15,
-      notes: "Application-facing SQL layer in the self-managed topology."
-    },
-    {
-      id: "sz-2",
-      phase: "Phase 2",
-      component: "TiKV node",
-      configuration: "16 vCPU / 128 GiB",
-      storage: "4 TB GP3",
-      count: 50,
-      notes: "Storage and transactional layer based on the workbook topology."
-    },
-    {
-      id: "sz-3",
-      phase: "Phase 2",
-      component: "TiFlash node",
-      configuration: "32 vCPU / 128 GiB",
-      storage: "4 TB GP3",
-      count: 12,
-      notes: "Read-optimized layer for analytical acceleration and isolation."
-    }
-  ]
+  architecture: [],
+  sizing: []
 };
 
 const state = loadState();
@@ -698,8 +375,9 @@ function renderOverview() {
   const overview = state.overview;
 
   setValue("accountName", overview.accountName);
-  setValue("champion", overview.champion);
-  setValue("execSponsor", overview.execSponsor);
+  setValue("accountExecutive", overview.accountExecutive);
+  setValue("salesEngineer", overview.salesEngineer);
+  setValue("customerLead", overview.customerLead);
   setValue("solutionName", overview.solutionName);
   setValue("currentStage", overview.currentStage);
   setValue("programHealth", overview.programHealth);
@@ -764,18 +442,18 @@ function renderSnapshots() {
       "at-risk": "at-risk health",
       blocked: "blocked health"
     })}.`,
-    `Champion: ${state.overview.champion || "Unassigned"}. Executive sponsor: ${
-      state.overview.execSponsor || "Not captured"
-    }.`,
+    `AE: ${state.overview.accountExecutive || "Unassigned"}. SE: ${
+      state.overview.salesEngineer || "Unassigned"
+    }. Customer lead: ${state.overview.customerLead || "Not captured"}.`,
     state.overview.primaryOutcome || "Primary outcome not defined yet."
   ]);
 
   elements.summaryProof.innerHTML = renderSummaryList([
-    `${state.criteria.filter((item) => item.status === "pass").length} success criteria are currently marked pass.`,
+    `${state.criteria.filter((item) => item.status === "pass").length} mutual criteria are currently marked met.`,
     `${answeredDiscovery} discovery prompts have confirmed answers captured.`,
     criticalUnproven.length
       ? `${criticalUnproven.length} critical criteria still need proof or a stronger readout.`
-      : "Critical criteria currently have passing evidence."
+      : "Critical criteria currently have enough evidence recorded."
   ]);
 
   elements.summaryGaps.innerHTML = renderSummaryList([
@@ -848,7 +526,7 @@ function renderMilestones() {
 function renderCriteria() {
   if (!state.criteria.length) {
     elements.criteriaList.innerHTML =
-      '<div class="empty-state">Add the success criteria that define the pilot outcome.</div>';
+      '<div class="empty-state">Add the mutual criteria that define what alignment and validation look like.</div>';
     return;
   }
 
@@ -868,7 +546,7 @@ function renderCriteria() {
                   criteriaStatusLabels[item.status]
                 }</span>
                 <span class="status-pill status-${item.requiresTestPlan ? "yes" : "no"}">
-                  ${item.requiresTestPlan ? "Needs test plan" : "No test plan"}
+                  ${item.requiresTestPlan ? "Needs workstream" : "No workstream"}
                 </span>
               </div>
               <h3>${escapeHtml(item.useCase)}</h3>
@@ -905,7 +583,7 @@ function renderCriteria() {
 function renderTestTasks() {
   if (!state.testTasks.length) {
     elements.testTaskList.innerHTML =
-      '<div class="empty-state">Add the concrete work items that execute the pilot.</div>';
+      '<div class="empty-state">Add the concrete workstreams and checkpoints that support the joint execution plan.</div>';
     return;
   }
 
@@ -927,7 +605,7 @@ function renderActions() {
 function renderIssues() {
   if (!state.issues.length) {
     elements.issueList.innerHTML =
-      '<div class="empty-state">No issues logged.</div>';
+      '<div class="empty-state">No active blockers logged.</div>';
     return;
   }
 
@@ -949,7 +627,7 @@ function renderDiscovery() {
 function renderArchitecture() {
   if (!state.architecture.length) {
     elements.architectureList.innerHTML =
-      '<div class="empty-state">Add the current-state systems and their tradeoffs.</div>';
+      '<div class="empty-state">Add the current workflows, systems, or process notes the team needs for context.</div>';
     return;
   }
 
@@ -962,7 +640,7 @@ function renderArchitecture() {
 function renderSizing() {
   if (!state.sizing.length) {
     elements.sizingList.innerHTML =
-      '<div class="empty-state">Capture the proposed topology and counts here.</div>';
+      '<div class="empty-state">Capture the assumptions, dependencies, and operating notes the team is working from.</div>';
     return;
   }
 
@@ -976,8 +654,9 @@ function handleOverviewSubmit(event) {
 
   state.overview = normalizeOverview({
     accountName: formData.get("accountName"),
-    champion: formData.get("champion"),
-    execSponsor: formData.get("execSponsor"),
+    accountExecutive: formData.get("accountExecutive"),
+    salesEngineer: formData.get("salesEngineer"),
+    customerLead: formData.get("customerLead"),
     solutionName: formData.get("solutionName"),
     currentStage: formData.get("currentStage"),
     programHealth: formData.get("programHealth"),
@@ -1027,7 +706,7 @@ function handleCriteriaSubmit(event) {
 
   upsertCollectionItem(state.criteria, criterion);
   clearCriteriaForm();
-  commit("Success criterion saved.");
+  commit("Criterion saved.");
 }
 
 function handleTestTaskSubmit(event) {
@@ -1048,7 +727,7 @@ function handleTestTaskSubmit(event) {
 
   upsertCollectionItem(state.testTasks, task);
   clearTestTaskForm();
-  commit("Pilot task saved.");
+  commit("Workstream saved.");
 }
 
 function handleActionSubmit(event) {
@@ -1100,7 +779,7 @@ function handleDiscoverySubmit(event) {
 
   upsertCollectionItem(state.discovery, item);
   clearDiscoveryForm();
-  commit("Discovery prompt saved.");
+  commit("Discovery note saved.");
 }
 
 function handleArchitectureSubmit(event) {
@@ -1116,7 +795,7 @@ function handleArchitectureSubmit(event) {
 
   upsertCollectionItem(state.architecture, item);
   clearArchitectureForm();
-  commit("System summary saved.");
+  commit("Environment note saved.");
 }
 
 function handleSizingSubmit(event) {
@@ -1134,7 +813,7 @@ function handleSizingSubmit(event) {
 
   upsertCollectionItem(state.sizing, item);
   clearSizingForm();
-  commit("Sizing row saved.");
+  commit("Assumption saved.");
 }
 
 function handleMilestoneListClick(event) {
@@ -1290,7 +969,7 @@ function populateSizingForm(item) {
 function clearMilestoneForm() {
   elements.milestoneForm.reset();
   setValue("milestoneId", "");
-  setValue("milestonePhase", "Solutioning");
+  setValue("milestonePhase", "Discovery");
   setValue("milestoneStatus", "not-started");
 }
 
@@ -1305,7 +984,7 @@ function clearCriteriaForm() {
 function clearTestTaskForm() {
   elements.testTaskForm.reset();
   setValue("testTaskId", "");
-  setValue("testTaskPhase", "Phase 1");
+  setValue("testTaskPhase", "Discovery");
   setValue("testTaskStatus", "not-started");
 }
 
@@ -1337,7 +1016,7 @@ function clearArchitectureForm() {
 function clearSizingForm() {
   elements.sizingForm.reset();
   setValue("sizingId", "");
-  setValue("sizingPhase", "Phase 1");
+  setValue("sizingPhase", "Discovery");
 }
 
 function exportWorkspace() {
@@ -1348,7 +1027,7 @@ function exportWorkspace() {
   const blob = new Blob([JSON.stringify(payload, null, 2)], {
     type: "application/json"
   });
-  downloadBlob(blob, "signaldesk-workspace.json");
+  downloadBlob(blob, "signaldesk-jep-workspace.json");
 }
 
 function importWorkspace(event) {
@@ -1378,12 +1057,12 @@ function importWorkspace(event) {
 }
 
 function resetWorkspace() {
-  if (!window.confirm("Reload the demo workspace? This replaces your current local data.")) {
+  if (!window.confirm("Reload the blank template? This replaces your current local data.")) {
     return;
   }
 
   replaceState(normalizeState(cloneValue(demoData)));
-  commit("Demo workspace restored.");
+  commit("Template restored.");
 }
 
 function replaceState(nextState) {
@@ -1471,8 +1150,9 @@ function normalizeOverview(item) {
   const overview = item || {};
   return {
     accountName: cleanText(overview.accountName),
-    champion: cleanText(overview.champion),
-    execSponsor: cleanText(overview.execSponsor),
+    accountExecutive: cleanText(overview.accountExecutive),
+    salesEngineer: cleanText(overview.salesEngineer),
+    customerLead: cleanText(overview.customerLead),
     solutionName: cleanText(overview.solutionName),
     currentStage: stageLabels[overview.currentStage] ? overview.currentStage : "align",
     programHealth: ["on-track", "at-risk", "blocked"].includes(overview.programHealth)
@@ -1490,7 +1170,7 @@ function normalizeMilestone(item) {
   const milestone = item || {};
   return {
     id: cleanText(milestone.id) || createId("ms"),
-    phase: phaseOrder.hasOwnProperty(milestone.phase) ? milestone.phase : "Phase 1",
+    phase: phaseOrder.hasOwnProperty(milestone.phase) ? milestone.phase : "Discovery",
     stage: cleanText(milestone.stage),
     task: cleanText(milestone.task),
     owner: cleanText(milestone.owner),
@@ -1521,7 +1201,7 @@ function normalizeTestTask(item) {
 
   return {
     id: cleanText(task.id) || createId("tt"),
-    phase: ["Phase 1", "Phase 2"].includes(task.phase) ? task.phase : "Phase 1",
+    phase: phaseOrder.hasOwnProperty(task.phase) ? task.phase : "Discovery",
     stage: cleanText(task.stage),
     task: cleanText(task.task),
     assignee: cleanText(task.assignee),
@@ -1585,7 +1265,7 @@ function normalizeSizing(item) {
   const sizing = item || {};
   return {
     id: cleanText(sizing.id) || createId("sz"),
-    phase: ["Phase 1", "Phase 2"].includes(sizing.phase) ? sizing.phase : "Phase 1",
+    phase: phaseOrder.hasOwnProperty(sizing.phase) ? sizing.phase : "Discovery",
     component: cleanText(sizing.component),
     configuration: cleanText(sizing.configuration),
     storage: cleanText(sizing.storage),
@@ -1876,13 +1556,13 @@ function renderSizingCard(item) {
         </div>
       </div>
       <div class="meta-grid">
-        <p class="record-meta"><strong>Config:</strong> ${
+        <p class="record-meta"><strong>Owner / detail:</strong> ${
           escapeHtml(item.configuration || "Not set")
         }</p>
-        <p class="record-meta"><strong>Storage:</strong> ${
+        <p class="record-meta"><strong>Status:</strong> ${
           escapeHtml(item.storage || "Not set")
         }</p>
-        <p class="record-meta"><strong>Count:</strong> ${item.count || 0}</p>
+        <p class="record-meta"><strong>Priority:</strong> ${item.count || 0}</p>
       </div>
       <p class="detail-text">${item.notes ? formatText(item.notes) : "No notes yet."}</p>
     </article>
@@ -1892,10 +1572,10 @@ function renderSizingCard(item) {
 function getProcessCards() {
   const importantDiscovery = state.discovery.filter((item) => item.important);
   const importantAnswered = importantDiscovery.filter((item) => item.answer).length;
-  const prepMilestones = state.milestones.filter((item) =>
-    ["Solutioning", "Phase 1"].includes(item.phase) && /prep|solutioning/i.test(item.stage)
+  const planningMilestones = state.milestones.filter((item) =>
+    ["Discovery", "Mutual Plan"].includes(item.phase)
   );
-  const prepComplete = prepMilestones.filter((item) => item.status === "complete").length;
+  const planningComplete = planningMilestones.filter((item) => item.status === "complete").length;
   const validatedCriteria = state.criteria.filter((item) => item.status !== "not-tested").length;
   const completedTasks = state.testTasks.filter((item) => item.status === "complete").length;
   const decisionMilestones = state.milestones.filter((item) => item.phase === "Decision");
@@ -1906,28 +1586,28 @@ function getProcessCards() {
       id: "align",
       step: "Step 1",
       title: "Align",
-      summary: "Lock the business case, owners, and must-win success criteria.",
+      summary: "Lock the account context, internal owners, and mutual success criteria.",
       metric: `${importantAnswered}/${importantDiscovery.length || 0} required discovery answers captured`
     },
     {
       id: "design",
       step: "Step 2",
-      title: "Design",
-      summary: "Define the milestone path, pilot scope, and execution sequence.",
-      metric: `${prepComplete}/${prepMilestones.length || 0} prep milestones complete`
+      title: "Plan",
+      summary: "Define the milestone path, customer checkpoints, and working cadence.",
+      metric: `${planningComplete}/${planningMilestones.length || 0} planning milestones complete`
     },
     {
       id: "validate",
       step: "Step 3",
       title: "Validate",
-      summary: "Run the work, verify the numbers, and make the readout credible.",
+      summary: "Run the agreed workstreams, capture proof, and keep the readout current.",
       metric: `${validatedCriteria} criteria in evaluation, ${completedTasks} tasks complete`
     },
     {
       id: "decide",
       step: "Step 4",
-      title: "Decide",
-      summary: "Drive the commercial and production decision without losing the thread.",
+      title: "Advance",
+      summary: "Keep the next-step decision path clear without losing the operating thread.",
       metric: `${resolvedIssues}/${state.issues.length || 0} issues resolved, ${
         decisionMilestones.filter((item) => item.status === "complete").length
       } decision milestones complete`
