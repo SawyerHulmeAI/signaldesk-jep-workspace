@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignalDesk | Joint Execution Plan Workspace</title>
+    <meta
+      name="description"
+      content="SignalDesk turns a joint execution plan spreadsheet into a guided workspace for milestones, success criteria, pilot tasks, actions, issues, and discovery."
+    />
+    <meta
+      property="og:title"
+      content="SignalDesk | Joint Execution Plan Workspace"
+    />
+    <meta
+      property="og:description"
+      content="A web-based joint execution plan tool for milestones, success criteria, pilot tasks, actions, issues, discovery, architecture, and sizing."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SignalDesk" />
+    <meta
+      name="twitter:card"
+      content="summary"
+    />
+    <meta
+      name="twitter:title"
+      content="SignalDesk | Joint Execution Plan Workspace"
+    />
+    <meta
+      name="twitter:description"
+      content="A web-based joint execution plan tool for milestones, success criteria, pilot tasks, actions, issues, discovery, architecture, and sizing."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-backdrop" aria-hidden="true"></div>
+
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Joint execution plan workspace</p>
+        <h1>SignalDesk</h1>
+        <p class="hero-text">
+          Replace the spreadsheet with a guided operating workspace that keeps
+          success criteria, pilot work, open actions, and decision blockers in
+          one shared flow.
+        </p>
+
+        <nav class="anchor-nav" aria-label="Workspace sections">
+          <a href="#overviewPanel">Overview</a>
+          <a href="#milestonesPanel">Milestones</a>
+          <a href="#criteriaPanel">Validation</a>
+          <a href="#executionPanel">Execution</a>
+          <a href="#foundationPanel">Foundation</a>
+        </nav>
+      </div>
+
+      <aside class="hero-metrics" aria-label="Program health snapshot">
+        <article class="metric-card">
+          <span id="completionMetric">0%</span>
+          <p>Milestones complete</p>
+        </article>
+        <article class="metric-card">
+          <span id="criteriaMetric">0 / 0</span>
+          <p>Criteria passing</p>
+        </article>
+        <article class="metric-card">
+          <span id="actionsMetric">0</span>
+          <p>Open actions</p>
+        </article>
+        <article class="metric-card">
+          <span id="issuesMetric">0</span>
+          <p>Active issues</p>
+        </article>
+        <article class="metric-card metric-wide">
+          <span id="checkpointMetric">No upcoming date</span>
+          <p>Next checkpoint</p>
+        </article>
+      </aside>
+    </header>
+
+    <main class="workspace">
+      <section class="panel process-panel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Guided flow</p>
+            <h2>Run The Plan Like A Process</h2>
+          </div>
+          <p class="section-copy">
+            The spreadsheet tabs map into four operating steps: align the
+            motion, design the pilot, validate the outcomes, then drive the
+            decision.
+          </p>
+        </div>
+        <div id="processRail" class="process-rail"></div>
+      </section>
+
+      <section class="panel overview-panel" id="overviewPanel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Program frame</p>
+            <h2>Account Alignment</h2>
+          </div>
+          <p class="section-copy">
+            Lock the business objective, ownership, phase, and the actual
+            definition of success before execution starts drifting.
+          </p>
+        </div>
+
+        <form id="overviewForm" class="stack-form">
+          <div class="form-grid three-up">
+            <label>
+              Account
+              <input
+                id="accountName"
+                name="accountName"
+                type="text"
+                maxlength="80"
+                placeholder="HubSpot"
+                required
+              />
+            </label>
+
+            <label>
+              Champion
+              <input
+                id="champion"
+                name="champion"
+                type="text"
+                maxlength="80"
+                placeholder="Primary internal owner"
+                required
+              />
+            </label>
+
+            <label>
+              Executive sponsor
+              <input
+                id="execSponsor"
+                name="execSponsor"
+                type="text"
+                maxlength="80"
+                placeholder="Decision owner or sponsor"
+              />
+            </label>
+          </div>
+
+          <div class="form-grid three-up">
+            <label>
+              Solution / motion
+              <input
+                id="solutionName"
+                name="solutionName"
+                type="text"
+                maxlength="120"
+                placeholder="TiDB Pilot"
+                required
+              />
+            </label>
+
+            <label>
+              Current step
+              <select id="currentStage" name="currentStage">
+                <option value="align">Align</option>
+                <option value="design">Design</option>
+                <option value="validate">Validate</option>
+                <option value="decide">Decide</option>
+              </select>
+            </label>
+
+            <label>
+              Program health
+              <select id="programHealth" name="programHealth">
+                <option value="on-track">On track</option>
+                <option value="at-risk">At risk</option>
+                <option value="blocked">Blocked</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="form-grid two-up">
+            <label>
+              Decision target date
+              <input id="decisionDate" name="decisionDate" type="date" />
+            </label>
+
+            <label>
+              Primary business outcome
+              <input
+                id="primaryOutcome"
+                name="primaryOutcome"
+                type="text"
+                maxlength="160"
+                placeholder="What must this pilot prove for the account?"
+              />
+            </label>
+          </div>
+
+          <div class="form-grid two-up">
+            <label>
+              Success definition
+              <textarea
+                id="successDefinition"
+                name="successDefinition"
+                rows="5"
+                maxlength="1200"
+                placeholder="Describe the joint success criteria in plain language."
+              ></textarea>
+            </label>
+
+            <label>
+              Why now
+              <textarea
+                id="whyNow"
+                name="whyNow"
+                rows="5"
+                maxlength="1200"
+                placeholder="What pain, cost, or urgency makes the pilot matter right now?"
+              ></textarea>
+            </label>
+          </div>
+
+          <label>
+            Decision notes
+            <textarea
+              id="decisionNotes"
+              name="decisionNotes"
+              rows="4"
+              maxlength="1200"
+              placeholder="Capture the buying path, decision constraints, and what still needs proof."
+            ></textarea>
+          </label>
+
+          <div class="tool-row">
+            <button type="submit" class="btn-primary">Save overview</button>
+            <button id="exportBtn" type="button" class="btn-secondary">
+              Export workspace
+            </button>
+            <label class="import-control">
+              <input id="importInput" type="file" accept="application/json" />
+              <span>Import workspace</span>
+            </label>
+            <button id="resetDemoBtn" type="button" class="btn-ghost">
+              Reload demo
+            </button>
+          </div>
+
+          <p
+            id="overviewMessage"
+            class="form-message"
+            role="status"
+            aria-live="polite"
+          ></p>
+        </form>
+      </section>
+
+      <section class="panel snapshot-panel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Operating snapshot</p>
+            <h2>What Needs Attention</h2>
+          </div>
+          <p class="section-copy">
+            This turns the workbook into an execution brief: what the account is
+            trying to prove, what is already verified, and where the plan can
+            stall.
+          </p>
+        </div>
+
+        <div class="snapshot-grid">
+          <article class="summary-card">
+            <p class="summary-label">Alignment</p>
+            <div id="summaryAlignment" class="summary-body"></div>
+          </article>
+          <article class="summary-card">
+            <p class="summary-label">Proof points</p>
+            <div id="summaryProof" class="summary-body"></div>
+          </article>
+          <article class="summary-card">
+            <p class="summary-label">Execution gaps</p>
+            <div id="summaryGaps" class="summary-body"></div>
+          </article>
+          <article class="summary-card">
+            <p class="summary-label">Decision path</p>
+            <div id="summaryDecision" class="summary-body"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel milestones-panel" id="milestonesPanel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Shared tracker</p>
+            <h2>Milestones</h2>
+          </div>
+          <p class="section-copy">
+            Keep the phase plan visible without forcing everyone to read a grid
+            of weekly cells.
+          </p>
+        </div>
+
+        <div class="panel-split">
+          <form id="milestoneForm" class="stack-form editor-card">
+            <input id="milestoneId" name="milestoneId" type="hidden" />
+
+            <div class="subpanel-heading">
+              <h3>Milestone editor</h3>
+              <p>Use this for phase gates, exit criteria, and decision dates.</p>
+            </div>
+
+            <div class="form-grid two-up">
+              <label>
+                Phase
+                <select id="milestonePhase" name="phase">
+                  <option value="Solutioning">Solutioning</option>
+                  <option value="Phase 1">Phase 1</option>
+                  <option value="Phase 2">Phase 2</option>
+                  <option value="Decision">Decision</option>
+                </select>
+              </label>
+
+              <label>
+                Status
+                <select id="milestoneStatus" name="status">
+                  <option value="not-started">Not started</option>
+                  <option value="on-track">On track</option>
+                  <option value="at-risk">At risk</option>
+                  <option value="blocked">Blocked</option>
+                  <option value="complete">Complete</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              Stage
+              <input
+                id="milestoneStage"
+                name="stage"
+                type="text"
+                maxlength="80"
+                placeholder="PoC Prep, Validate Results, Contract Prep..."
+                required
+              />
+            </label>
+
+            <label>
+              Task
+              <input
+                id="milestoneTask"
+                name="task"
+                type="text"
+                maxlength="160"
+                placeholder="Success criteria defined"
+                required
+              />
+            </label>
+
+            <div class="form-grid two-up">
+              <label>
+                Owner
+                <input
+                  id="milestoneOwner"
+                  name="owner"
+                  type="text"
+                  maxlength="80"
+                  placeholder="Owner or joint owner"
+                />
+              </label>
+
+              <label>
+                Planned window
+                <input
+                  id="milestoneWindow"
+                  name="plannedWindow"
+                  type="text"
+                  maxlength="40"
+                  placeholder="W1, Week of Mar 18, EOM..."
+                />
+              </label>
+            </div>
+
+            <label>
+              Due date
+              <input id="milestoneDueDate" name="dueDate" type="date" />
+            </label>
+
+            <label>
+              Notes
+              <textarea
+                id="milestoneNotes"
+                name="notes"
+                rows="4"
+                maxlength="1000"
+                placeholder="What needs to happen, what changed, or why this is at risk."
+              ></textarea>
+            </label>
+
+            <div class="editor-actions">
+              <button type="submit" class="btn-primary">Save milestone</button>
+              <button
+                id="cancelMilestoneEdit"
+                type="button"
+                class="btn-secondary"
+              >
+                Clear
+              </button>
+            </div>
+          </form>
+
+          <div class="list-shell">
+            <div class="list-controls">
+              <label>
+                Phase
+                <select id="milestonePhaseFilter">
+                  <option value="all">All phases</option>
+                  <option value="Solutioning">Solutioning</option>
+                  <option value="Phase 1">Phase 1</option>
+                  <option value="Phase 2">Phase 2</option>
+                  <option value="Decision">Decision</option>
+                </select>
+              </label>
+
+              <label>
+                Status
+                <select id="milestoneStatusFilter">
+                  <option value="all">All statuses</option>
+                  <option value="not-started">Not started</option>
+                  <option value="on-track">On track</option>
+                  <option value="at-risk">At risk</option>
+                  <option value="blocked">Blocked</option>
+                  <option value="complete">Complete</option>
+                </select>
+              </label>
+
+              <label>
+                Search
+                <input
+                  id="milestoneSearch"
+                  type="search"
+                  placeholder="Search stage, task, owner, notes"
+                />
+              </label>
+            </div>
+
+            <div id="milestoneList" class="record-list" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel validation-panel" id="criteriaPanel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Validation</p>
+            <h2>Success Criteria And Pilot Plan</h2>
+          </div>
+          <p class="section-copy">
+            The original workbook split success criteria and test steps across
+            tabs. This view keeps the “what we must prove” next to “how we plan
+            to prove it.”
+          </p>
+        </div>
+
+        <div class="dual-panel">
+          <div class="subpanel">
+            <div class="subpanel-heading">
+              <h3>Success criteria</h3>
+              <p>Track the business or technical outcomes that drive the go/no-go.</p>
+            </div>
+
+            <form id="criteriaForm" class="stack-form editor-card narrow-editor">
+              <input id="criteriaId" name="criteriaId" type="hidden" />
+
+              <label>
+                Use case
+                <input
+                  id="criteriaUseCase"
+                  name="useCase"
+                  type="text"
+                  maxlength="180"
+                  placeholder="High QPS / low-latency queries"
+                  required
+                />
+              </label>
+
+              <div class="form-grid three-up">
+                <label>
+                  Importance
+                  <select id="criteriaImportance" name="importance">
+                    <option value="critical">Critical</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                </label>
+
+                <label>
+                  Needs test plan
+                  <select id="criteriaNeedsPlan" name="requiresTestPlan">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </label>
+
+                <label>
+                  Status
+                  <select id="criteriaStatus" name="status">
+                    <option value="not-tested">Not tested</option>
+                    <option value="watch">Watch</option>
+                    <option value="pass">Pass</option>
+                    <option value="fail">Fail</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>
+                Metric target / test expectation
+                <textarea
+                  id="criteriaMetricTarget"
+                  name="metricTarget"
+                  rows="4"
+                  maxlength="1200"
+                  placeholder="QPS, latency, throughput, scale, or decision metric."
+                ></textarea>
+              </label>
+
+              <div class="form-grid two-up">
+                <label>
+                  Verified by
+                  <input
+                    id="criteriaVerifiedBy"
+                    name="verifiedBy"
+                    type="text"
+                    maxlength="80"
+                    placeholder="Team or individual"
+                  />
+                </label>
+
+                <label>
+                  Notes
+                  <textarea
+                    id="criteriaNotes"
+                    name="notes"
+                    rows="3"
+                    maxlength="800"
+                    placeholder="Evidence, nuance, or open caveats."
+                  ></textarea>
+                </label>
+              </div>
+
+              <div class="editor-actions">
+                <button type="submit" class="btn-primary">Save criterion</button>
+                <button id="cancelCriteriaEdit" type="button" class="btn-secondary">
+                  Clear
+                </button>
+              </div>
+            </form>
+
+            <div id="criteriaList" class="card-grid" aria-live="polite"></div>
+          </div>
+
+          <div class="subpanel">
+            <div class="subpanel-heading">
+              <h3>Pilot plan</h3>
+              <p>Use this for setup, tests, and completion tasks from the test plan.</p>
+            </div>
+
+            <form id="testTaskForm" class="stack-form editor-card narrow-editor">
+              <input id="testTaskId" name="testTaskId" type="hidden" />
+
+              <div class="form-grid two-up">
+                <label>
+                  Phase
+                  <select id="testTaskPhase" name="phase">
+                    <option value="Phase 1">Phase 1</option>
+                    <option value="Phase 2">Phase 2</option>
+                  </select>
+                </label>
+
+                <label>
+                  Status
+                  <select id="testTaskStatus" name="status">
+                    <option value="not-started">Not started</option>
+                    <option value="in-progress">In progress</option>
+                    <option value="blocked">Blocked</option>
+                    <option value="complete">Complete</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>
+                Stage
+                <input
+                  id="testTaskStage"
+                  name="stage"
+                  type="text"
+                  maxlength="80"
+                  placeholder="Setup, Test 1, Finalization..."
+                  required
+                />
+              </label>
+
+              <label>
+                Task
+                <input
+                  id="testTaskTitle"
+                  name="task"
+                  type="text"
+                  maxlength="180"
+                  placeholder="Run the business benchmark"
+                  required
+                />
+              </label>
+
+              <div class="form-grid three-up">
+                <label>
+                  Assignee
+                  <input
+                    id="testTaskAssignee"
+                    name="assignee"
+                    type="text"
+                    maxlength="80"
+                    placeholder="Owner"
+                  />
+                </label>
+
+                <label>
+                  Start date
+                  <input id="testTaskStartDate" name="startDate" type="date" />
+                </label>
+
+                <label>
+                  Duration
+                  <input
+                    id="testTaskDuration"
+                    name="duration"
+                    type="text"
+                    maxlength="40"
+                    placeholder="3 days, 2 weeks..."
+                  />
+                </label>
+              </div>
+
+              <label class="checkbox-row">
+                <input id="testTaskMilestone" name="isMilestone" type="checkbox" />
+                Mark as a milestone task
+              </label>
+
+              <label>
+                Notes
+                <textarea
+                  id="testTaskNotes"
+                  name="notes"
+                  rows="4"
+                  maxlength="800"
+                  placeholder="Dependencies, metrics, or caveats."
+                ></textarea>
+              </label>
+
+              <div class="editor-actions">
+                <button type="submit" class="btn-primary">Save task</button>
+                <button id="cancelTestTaskEdit" type="button" class="btn-secondary">
+                  Clear
+                </button>
+              </div>
+            </form>
+
+            <div id="testTaskList" class="record-list compact-list" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel execution-panel" id="executionPanel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Execution control</p>
+            <h2>Actions And Issues</h2>
+          </div>
+          <p class="section-copy">
+            The tracker works best when next steps and blockers are short,
+            explicit, and owned.
+          </p>
+        </div>
+
+        <div class="dual-panel">
+          <div class="subpanel">
+            <div class="subpanel-heading">
+              <h3>Next actions</h3>
+              <p>Use this as the operating queue for the next customer touchpoint.</p>
+            </div>
+
+            <form id="actionForm" class="stack-form editor-card narrow-editor">
+              <input id="actionId" name="actionId" type="hidden" />
+
+              <label>
+                Next action
+                <input
+                  id="actionTitle"
+                  name="title"
+                  type="text"
+                  maxlength="180"
+                  placeholder="Outline success criteria"
+                  required
+                />
+              </label>
+
+              <div class="form-grid two-up">
+                <label>
+                  Owner
+                  <input
+                    id="actionOwner"
+                    name="owner"
+                    type="text"
+                    maxlength="80"
+                    placeholder="Owner"
+                  />
+                </label>
+
+                <label>
+                  Status
+                  <select id="actionStatus" name="status">
+                    <option value="open">Open</option>
+                    <option value="in-progress">In progress</option>
+                    <option value="waiting">Waiting</option>
+                    <option value="done">Done</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="form-grid two-up">
+                <label>
+                  Created
+                  <input id="actionCreatedDate" name="createdDate" type="date" />
+                </label>
+
+                <label>
+                  Due
+                  <input id="actionDueDate" name="dueDate" type="date" />
+                </label>
+              </div>
+
+              <label>
+                Notes
+                <textarea
+                  id="actionNotes"
+                  name="notes"
+                  rows="4"
+                  maxlength="900"
+                  placeholder="Clarify what the action should produce."
+                ></textarea>
+              </label>
+
+              <div class="editor-actions">
+                <button type="submit" class="btn-primary">Save action</button>
+                <button id="cancelActionEdit" type="button" class="btn-secondary">
+                  Clear
+                </button>
+              </div>
+            </form>
+
+            <div id="actionList" class="record-list compact-list" aria-live="polite"></div>
+          </div>
+
+          <div class="subpanel">
+            <div class="subpanel-heading">
+              <h3>Issue register</h3>
+              <p>Track blockers separately from next steps so real risks stay visible.</p>
+            </div>
+
+            <form id="issueForm" class="stack-form editor-card narrow-editor">
+              <input id="issueId" name="issueId" type="hidden" />
+
+              <label>
+                Issue title
+                <input
+                  id="issueTitle"
+                  name="title"
+                  type="text"
+                  maxlength="180"
+                  placeholder="Need final benchmark query set"
+                  required
+                />
+              </label>
+
+              <div class="form-grid three-up">
+                <label>
+                  Owner
+                  <input
+                    id="issueOwner"
+                    name="owner"
+                    type="text"
+                    maxlength="80"
+                    placeholder="Owner"
+                  />
+                </label>
+
+                <label>
+                  Status
+                  <select id="issueStatus" name="status">
+                    <option value="open">Open</option>
+                    <option value="mitigating">Mitigating</option>
+                    <option value="blocked">Blocked</option>
+                    <option value="resolved">Resolved</option>
+                  </select>
+                </label>
+
+                <label>
+                  Impact
+                  <select id="issueImpact" name="impact">
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>
+                Created
+                <input id="issueCreatedDate" name="createdDate" type="date" />
+              </label>
+
+              <label>
+                Notes
+                <textarea
+                  id="issueNotes"
+                  name="notes"
+                  rows="4"
+                  maxlength="900"
+                  placeholder="What is happening, why it matters, and what needs to unblock it."
+                ></textarea>
+              </label>
+
+              <div class="editor-actions">
+                <button type="submit" class="btn-primary">Save issue</button>
+                <button id="cancelIssueEdit" type="button" class="btn-secondary">
+                  Clear
+                </button>
+              </div>
+            </form>
+
+            <div id="issueList" class="record-list compact-list" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel foundation-panel" id="foundationPanel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Foundation</p>
+            <h2>Discovery, Architecture, And Sizing</h2>
+          </div>
+          <p class="section-copy">
+            These tabs existed in the workbook because the deal team still needs
+            them. They live here as structured records instead of hidden sheets.
+          </p>
+        </div>
+
+        <div class="triple-panel">
+          <div class="subpanel">
+            <div class="subpanel-heading">
+              <h3>Discovery prompts</h3>
+              <p>Keep the technical and business discovery in one answer bank.</p>
+            </div>
+
+            <form id="discoveryForm" class="stack-form editor-card narrow-editor">
+              <input id="discoveryId" name="discoveryId" type="hidden" />
+
+              <div class="form-grid two-up">
+                <label>
+                  Category
+                  <input
+                    id="discoveryCategory"
+                    name="category"
+                    type="text"
+                    maxlength="80"
+                    placeholder="Data Volume, HA, Analytics..."
+                    required
+                  />
+                </label>
+
+                <label class="checkbox-row">
+                  <input id="discoveryImportant" name="important" type="checkbox" />
+                  Mark as required for alignment
+                </label>
+              </div>
+
+              <label>
+                Question
+                <textarea
+                  id="discoveryQuestion"
+                  name="question"
+                  rows="4"
+                  maxlength="1200"
+                  placeholder="What do we need answered?"
+                  required
+                ></textarea>
+              </label>
+
+              <label>
+                Answer
+                <textarea
+                  id="discoveryAnswer"
+                  name="answer"
+                  rows="4"
+                  maxlength="1200"
+                  placeholder="Capture the current answer or leave blank until confirmed."
+                ></textarea>
+              </label>
+
+              <div class="editor-actions">
+                <button type="submit" class="btn-primary">Save prompt</button>
+                <button
+                  id="cancelDiscoveryEdit"
+                  type="button"
+                  class="btn-secondary"
+                >
+                  Clear
+                </button>
+              </div>
+            </form>
+
+            <div id="discoveryList" class="record-list compact-list" aria-live="polite"></div>
+          </div>
+
+          <div class="subpanel">
+            <div class="subpanel-heading">
+              <h3>Current stack</h3>
+              <p>Summarize the systems involved, what they do well, and where they break.</p>
+            </div>
+
+            <form id="architectureForm" class="stack-form editor-card narrow-editor">
+              <input id="architectureId" name="architectureId" type="hidden" />
+
+              <label>
+                System
+                <input
+                  id="architectureSystem"
+                  name="system"
+                  type="text"
+                  maxlength="80"
+                  placeholder="Elasticsearch"
+                  required
+                />
+              </label>
+
+              <label>
+                Role
+                <textarea
+                  id="architectureRole"
+                  name="role"
+                  rows="4"
+                  maxlength="900"
+                  placeholder="What this system does in the current architecture."
+                ></textarea>
+              </label>
+
+              <label>
+                Strengths
+                <textarea
+                  id="architectureStrengths"
+                  name="strengths"
+                  rows="3"
+                  maxlength="700"
+                  placeholder="What works well today."
+                ></textarea>
+              </label>
+
+              <label>
+                Constraints
+                <textarea
+                  id="architectureConstraints"
+                  name="constraints"
+                  rows="3"
+                  maxlength="700"
+                  placeholder="What breaks, costs too much, or causes scale pain."
+                ></textarea>
+              </label>
+
+              <div class="editor-actions">
+                <button type="submit" class="btn-primary">Save system</button>
+                <button
+                  id="cancelArchitectureEdit"
+                  type="button"
+                  class="btn-secondary"
+                >
+                  Clear
+                </button>
+              </div>
+            </form>
+
+            <div id="architectureList" class="card-grid compact-cards" aria-live="polite"></div>
+          </div>
+
+          <div class="subpanel">
+            <div class="subpanel-heading">
+              <h3>Cluster sizing</h3>
+              <p>Capture the rollout shape without needing a separate sizing sheet.</p>
+            </div>
+
+            <form id="sizingForm" class="stack-form editor-card narrow-editor">
+              <input id="sizingId" name="sizingId" type="hidden" />
+
+              <div class="form-grid two-up">
+                <label>
+                  Phase
+                  <select id="sizingPhase" name="phase">
+                    <option value="Phase 1">Phase 1</option>
+                    <option value="Phase 2">Phase 2</option>
+                  </select>
+                </label>
+
+                <label>
+                  Node / component
+                  <input
+                    id="sizingComponent"
+                    name="component"
+                    type="text"
+                    maxlength="80"
+                    placeholder="TiKV node"
+                    required
+                  />
+                </label>
+              </div>
+
+              <div class="form-grid three-up">
+                <label>
+                  Configuration
+                  <input
+                    id="sizingConfiguration"
+                    name="configuration"
+                    type="text"
+                    maxlength="120"
+                    placeholder="16 vCPU / 128 GiB"
+                  />
+                </label>
+
+                <label>
+                  Storage
+                  <input
+                    id="sizingStorage"
+                    name="storage"
+                    type="text"
+                    maxlength="120"
+                    placeholder="4 TB GP3"
+                  />
+                </label>
+
+                <label>
+                  Count
+                  <input
+                    id="sizingCount"
+                    name="count"
+                    type="number"
+                    min="0"
+                    max="999"
+                    step="1"
+                    placeholder="12"
+                  />
+                </label>
+              </div>
+
+              <label>
+                Notes
+                <textarea
+                  id="sizingNotes"
+                  name="notes"
+                  rows="4"
+                  maxlength="700"
+                  placeholder="Why this topology exists or what still needs validation."
+                ></textarea>
+              </label>
+
+              <div class="editor-actions">
+                <button type="submit" class="btn-primary">Save sizing</button>
+                <button id="cancelSizingEdit" type="button" class="btn-secondary">
+                  Clear
+                </button>
+              </div>
+            </form>
+
+            <div id="sizingList" class="record-list compact-list" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
