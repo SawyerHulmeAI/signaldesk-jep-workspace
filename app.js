@@ -75,6 +75,31 @@ const orgSideOptions = {
   shared: "Shared"
 };
 
+const orgChartViewOptions = {
+  all: "Shared view",
+  internal: "Our team",
+  customer: "Customer team"
+};
+
+const orgCardSizeOptions = {
+  compact: {
+    label: "Compact cards",
+    width: 176,
+    height: 116,
+    columnGap: 36,
+    rowGap: 84,
+    minHeight: 460
+  },
+  standard: {
+    label: "Standard cards",
+    width: 220,
+    height: 142,
+    columnGap: 64,
+    rowGap: 120,
+    minHeight: 520
+  }
+};
+
 const resourceTypeOptions = {
   "": "Select type",
   blog: "Blog",
@@ -157,11 +182,7 @@ const rowFactories = {
 };
 
 const collectionKeys = Object.keys(rowFactories);
-const ORG_CARD_WIDTH = 220;
-const ORG_CARD_HEIGHT = 142;
 const ORG_BOARD_PADDING = 36;
-const ORG_COLUMN_GAP = 64;
-const ORG_ROW_GAP = 120;
 
 const state = loadState();
 let orgDragState = null;
@@ -186,6 +207,10 @@ const elements = {
   legendTitle: document.getElementById("legendTitle"),
   legendContent: document.getElementById("legendContent"),
   legendNote: document.getElementById("legendNote"),
+  orgViewButtons: Array.from(document.querySelectorAll("[data-org-view]")),
+  orgCardSizeButtons: Array.from(document.querySelectorAll("[data-org-card-size]")),
+  orgBoardShell: document.getElementById("orgBoardShell"),
+  orgBoardNote: document.getElementById("orgBoardNote"),
   metricValues: [
     document.getElementById("metricValue1"),
     document.getElementById("metricValue2"),
@@ -263,6 +288,14 @@ function bindEvents() {
     elements.sharedSlackLink.addEventListener("input", handleOverviewEdit);
     elements.sharedSlackLink.addEventListener("change", handleOverviewEdit);
   }
+
+  elements.orgViewButtons.forEach((button) => {
+    button.addEventListener("click", () => setOrgChartView(button.dataset.orgView));
+  });
+
+  elements.orgCardSizeButtons.forEach((button) => {
+    button.addEventListener("click", () => setOrgCardSize(button.dataset.orgCardSize));
+  });
 
   if (elements.exportBtn) {
     elements.exportBtn.addEventListener("click", exportWorkspace);
@@ -391,27 +424,33 @@ function handleOrgCardPointerMove(event) {
     return;
   }
 
+  const metrics = getOrgMetrics();
+  autoScrollOrgBoardShell(event);
   const boardRect = elements.orgChartBoard.getBoundingClientRect();
+  const rawX = Math.round(event.clientX - boardRect.left - orgDragState.offsetX);
+  const rawY = Math.round(event.clientY - boardRect.top - orgDragState.offsetY);
+  expandOrgBoardForDrag(rawX, rawY);
+
   const boardWidth = Math.max(
     elements.orgChartBoard.scrollWidth,
     elements.orgChartBoard.clientWidth,
-    ORG_CARD_WIDTH + ORG_BOARD_PADDING * 2
+    metrics.width + ORG_BOARD_PADDING * 2
   );
   const boardHeight = Math.max(
     elements.orgChartBoard.scrollHeight,
     elements.orgChartBoard.clientHeight,
-    ORG_CARD_HEIGHT + ORG_BOARD_PADDING * 2
+    metrics.height + ORG_BOARD_PADDING * 2
   );
 
   const nextX = clamp(
-    Math.round(event.clientX - boardRect.left - orgDragState.offsetX),
+    rawX,
     ORG_BOARD_PADDING / 2,
-    boardWidth - ORG_CARD_WIDTH - ORG_BOARD_PADDING / 2
+    boardWidth - metrics.width - ORG_BOARD_PADDING / 2
   );
   const nextY = clamp(
-    Math.round(event.clientY - boardRect.top - orgDragState.offsetY),
+    rawY,
     ORG_BOARD_PADDING / 2,
-    boardHeight - ORG_CARD_HEIGHT - ORG_BOARD_PADDING / 2
+    boardHeight - metrics.height - ORG_BOARD_PADDING / 2
   );
 
   item.x = nextX;
@@ -422,7 +461,7 @@ function handleOrgCardPointerMove(event) {
     Math.abs(nextY - orgDragState.startY) > 3;
 
   updateOrgCardPosition(item.id, item.x, item.y);
-  elements.orgChartLines.innerHTML = renderOrgLines(state.orgMapRows.filter(isOrgMapRowActive));
+  elements.orgChartLines.innerHTML = renderOrgLines(getVisibleOrgRows(true).filter(isOrgMapRowActive));
 }
 
 function handleOrgCardPointerUp(event) {
@@ -480,6 +519,58 @@ function handleWindowResize() {
   });
 }
 
+function autoScrollOrgBoardShell(event) {
+  if (!elements.orgBoardShell) {
+    return;
+  }
+
+  const shellRect = elements.orgBoardShell.getBoundingClientRect();
+  const edge = 72;
+  const step = 30;
+
+  if (event.clientX > shellRect.right - edge) {
+    elements.orgBoardShell.scrollLeft += step;
+  } else if (event.clientX < shellRect.left + edge) {
+    elements.orgBoardShell.scrollLeft -= step;
+  }
+
+  if (event.clientY > shellRect.bottom - edge) {
+    elements.orgBoardShell.scrollTop += step;
+  } else if (event.clientY < shellRect.top + edge) {
+    elements.orgBoardShell.scrollTop -= step;
+  }
+}
+
+function expandOrgBoardForDrag(rawX, rawY) {
+  if (!elements.orgChartBoard) {
+    return;
+  }
+
+  const metrics = getOrgMetrics();
+  const currentWidth = Math.max(
+    elements.orgChartBoard.scrollWidth,
+    elements.orgChartBoard.clientWidth,
+    metrics.width * 2 + ORG_BOARD_PADDING * 2
+  );
+  const currentHeight = Math.max(
+    elements.orgChartBoard.scrollHeight,
+    elements.orgChartBoard.clientHeight,
+    metrics.minHeight
+  );
+  const nextWidth = Math.max(
+    currentWidth,
+    rawX + metrics.width + ORG_BOARD_PADDING * 2
+  );
+  const nextHeight = Math.max(
+    currentHeight,
+    rawY + metrics.height + ORG_BOARD_PADDING * 2
+  );
+
+  if (nextWidth !== currentWidth || nextHeight !== currentHeight) {
+    applyOrgBoardDimensions(nextWidth, nextHeight);
+  }
+}
+
 function renderAll() {
   renderOverview();
   renderPlanTable();
@@ -488,8 +579,7 @@ function renderAll() {
   renderActionsTable();
   renderBlockersTable();
   renderContextTable();
-  renderOrgMapTable();
-  renderOrgChartBoard();
+  renderOrgSection();
   renderResourcesTable();
   renderResourcePreviews();
   renderAssetsTable();
@@ -503,6 +593,37 @@ function renderShell() {
   renderTabs();
   renderMetrics();
   renderStatusPanel();
+}
+
+function renderOrgSection() {
+  renderOrgControls();
+  renderOrgMapTable();
+  renderOrgChartBoard();
+}
+
+function renderOrgControls() {
+  elements.orgViewButtons.forEach((button) => {
+    const isActive = button.dataset.orgView === state.orgChartView;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+
+  elements.orgCardSizeButtons.forEach((button) => {
+    const isActive = button.dataset.orgCardSize === state.orgCardSize;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+
+  if (!elements.orgBoardNote) {
+    return;
+  }
+
+  const viewLabel = orgChartViewOptions[state.orgChartView] || orgChartViewOptions.all;
+  const sizeLabel = orgCardSizeOptions[state.orgCardSize].label.toLowerCase();
+  elements.orgBoardNote.textContent =
+    state.orgChartView === "all"
+      ? `Drag cards to lay out the shared map. The board expands as you move toward the edge, and you can switch to ${orgChartViewOptions.internal.toLowerCase()} or ${orgChartViewOptions.customer.toLowerCase()} to work each org separately. Current card mode: ${sizeLabel}.`
+      : `Showing ${viewLabel.toLowerCase()}. Drag cards to lay out this org chart, use “Reports to” to draw the lines, and switch card mode when you need a tighter fit. Current card mode: ${sizeLabel}.`;
 }
 
 function renderTabs() {
@@ -943,7 +1064,19 @@ function renderOrgMapTable() {
     { label: "Notes" }
   ]);
 
-  elements.orgMapTableBody.innerHTML = state.orgMapRows
+  const visibleRows = getVisibleOrgRows(true);
+  if (!visibleRows.length) {
+    elements.orgMapTableBody.innerHTML = `
+      <tr>
+        <td class="empty-table-cell" colspan="${9 + state.customColumns.orgMapRows.length}">
+          No people in this view yet. Use Add Person to start this org chart.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  elements.orgMapTableBody.innerHTML = visibleRows
     .map((item) => {
       const tone = isOrgMapRowActive(item) ? "track" : "blank";
 
@@ -976,15 +1109,19 @@ function renderOrgChartBoard() {
     return;
   }
 
-  const activePeople = state.orgMapRows.filter(isOrgMapRowActive);
+  const activePeople = getVisibleOrgRows(true).filter(isOrgMapRowActive);
+  const metrics = getOrgMetrics();
+  elements.orgChartBoard.dataset.cardSize = state.orgCardSize;
   if (!activePeople.length) {
-    elements.orgChartBoard.style.minWidth = "";
-    elements.orgChartBoard.style.minHeight = "420px";
+    const emptyWidth = Math.max(
+      elements.orgChartBoard.clientWidth,
+      metrics.width * 2 + ORG_BOARD_PADDING * 2
+    );
+    applyOrgBoardDimensions(emptyWidth, metrics.minHeight);
     elements.orgChartLines.innerHTML = "";
-    elements.orgChartLines.setAttribute("viewBox", "0 0 1000 420");
     elements.orgCardLayer.innerHTML = `
       <div class="org-chart-empty">
-        Add people below, then drag their cards here to build the shared org map.
+        Add people below, then drag their cards here to build this org chart.
       </div>
     `;
     return;
@@ -993,17 +1130,45 @@ function renderOrgChartBoard() {
   const layoutChanged = ensureOrgLayout(activePeople);
   const boardSize = getOrgBoardSize(activePeople);
 
-  elements.orgChartBoard.style.minWidth = `${boardSize.width}px`;
-  elements.orgChartBoard.style.minHeight = `${boardSize.height}px`;
-  elements.orgChartLines.setAttribute("viewBox", `0 0 ${boardSize.width} ${boardSize.height}`);
-  elements.orgChartLines.setAttribute("width", String(boardSize.width));
-  elements.orgChartLines.setAttribute("height", String(boardSize.height));
+  applyOrgBoardDimensions(boardSize.width, boardSize.height);
   elements.orgChartLines.innerHTML = renderOrgLines(activePeople);
   elements.orgCardLayer.innerHTML = activePeople.map(renderOrgCard).join("");
 
   if (layoutChanged) {
     saveState();
   }
+}
+
+function getVisibleOrgRows(includeBlankRows) {
+  return state.orgMapRows.filter((item) => matchesOrgChartView(item, includeBlankRows));
+}
+
+function matchesOrgChartView(item, includeBlankRows) {
+  if (state.orgChartView === "all") {
+    return true;
+  }
+
+  if (item.side === state.orgChartView) {
+    return true;
+  }
+
+  return includeBlankRows && !hasText(item.side);
+}
+
+function getOrgMetrics() {
+  return orgCardSizeOptions[state.orgCardSize] || orgCardSizeOptions.standard;
+}
+
+function applyOrgBoardDimensions(width, height) {
+  if (!elements.orgChartBoard || !elements.orgChartLines) {
+    return;
+  }
+
+  elements.orgChartBoard.style.minWidth = `${width}px`;
+  elements.orgChartBoard.style.minHeight = `${height}px`;
+  elements.orgChartLines.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  elements.orgChartLines.setAttribute("width", String(width));
+  elements.orgChartLines.setAttribute("height", String(height));
 }
 
 function renderOrgCard(item) {
@@ -1044,6 +1209,7 @@ function renderOrgCard(item) {
 }
 
 function renderOrgLines(activePeople) {
+  const metrics = getOrgMetrics();
   return activePeople
     .map((item) => {
       const manager = findOrgManager(item, activePeople);
@@ -1051,9 +1217,9 @@ function renderOrgLines(activePeople) {
         return "";
       }
 
-      const startX = manager.x + ORG_CARD_WIDTH / 2;
-      const startY = manager.y + ORG_CARD_HEIGHT;
-      const endX = item.x + ORG_CARD_WIDTH / 2;
+      const startX = manager.x + metrics.width / 2;
+      const startY = manager.y + metrics.height;
+      const endX = item.x + metrics.width / 2;
       const endY = item.y;
       const midY = startY + Math.max(28, (endY - startY) / 2);
 
@@ -1569,7 +1735,11 @@ function handleInlineEdit(event) {
   renderStatusPanel();
 
   if (collectionName === "orgMapRows") {
-    renderOrgChartBoard();
+    if (field === "side") {
+      renderOrgSection();
+    } else {
+      renderOrgChartBoard();
+    }
   }
 
   if (collectionName === "resources") {
@@ -1644,6 +1814,28 @@ function setActiveTab(tabName) {
   setMessage(tabName === "plan" ? "Joint execution plan open." : "Resource center open.");
 }
 
+function setOrgChartView(viewName) {
+  if (!orgChartViewOptions[viewName] || state.orgChartView === viewName) {
+    return;
+  }
+
+  state.orgChartView = viewName;
+  saveState();
+  renderOrgSection();
+  setMessage(`${orgChartViewOptions[viewName]} open.`);
+}
+
+function setOrgCardSize(sizeName) {
+  if (!orgCardSizeOptions[sizeName] || state.orgCardSize === sizeName) {
+    return;
+  }
+
+  state.orgCardSize = sizeName;
+  saveState();
+  renderOrgSection();
+  setMessage(`${orgCardSizeOptions[sizeName].label} enabled.`);
+}
+
 function addRow(collectionName) {
   const factory = rowFactories[collectionName];
   if (!factory) {
@@ -1651,6 +1843,13 @@ function addRow(collectionName) {
   }
 
   const row = factory(state.customColumns[collectionName]);
+  if (
+    collectionName === "orgMapRows" &&
+    (state.orgChartView === "internal" || state.orgChartView === "customer")
+  ) {
+    row.side = state.orgChartView;
+  }
+
   state[collectionName].push(row);
   saveState();
   renderAll();
@@ -1860,24 +2059,25 @@ function deleteDocumentFile(id) {
 }
 
 function ensureOrgLayout(activePeople) {
+  const metrics = getOrgMetrics();
   const boardWidth = Math.max(
     elements.orgChartBoard ? elements.orgChartBoard.clientWidth : 0,
-    ORG_CARD_WIDTH * 3 + ORG_BOARD_PADDING * 2
+    metrics.width * 3 + ORG_BOARD_PADDING * 2
   );
   const groupedLevels = getOrgLevelGroups(activePeople);
   const allMissing = activePeople.every((item) => !hasCoordinate(item.x) || !hasCoordinate(item.y));
   let changed = false;
 
   groupedLevels.forEach((group, level) => {
-    const top = ORG_BOARD_PADDING + level * (ORG_CARD_HEIGHT + ORG_ROW_GAP);
+    const top = ORG_BOARD_PADDING + level * (metrics.height + metrics.rowGap);
 
     if (allMissing) {
       const rowWidth =
-        group.length * ORG_CARD_WIDTH + Math.max(0, group.length - 1) * ORG_COLUMN_GAP;
+        group.length * metrics.width + Math.max(0, group.length - 1) * metrics.columnGap;
       const startX = Math.max(ORG_BOARD_PADDING, Math.round((boardWidth - rowWidth) / 2));
 
       group.forEach((item, index) => {
-        item.x = startX + index * (ORG_CARD_WIDTH + ORG_COLUMN_GAP);
+        item.x = startX + index * (metrics.width + metrics.columnGap);
         item.y = top;
         changed = true;
       });
@@ -1887,14 +2087,14 @@ function ensureOrgLayout(activePeople) {
 
     const positioned = group.filter((item) => hasCoordinate(item.x) && hasCoordinate(item.y));
     let nextX = positioned.length
-      ? Math.max(...positioned.map((item) => item.x)) + ORG_CARD_WIDTH + ORG_COLUMN_GAP
+      ? Math.max(...positioned.map((item) => item.x)) + metrics.width + metrics.columnGap
       : ORG_BOARD_PADDING;
 
     group.forEach((item) => {
       if (!hasCoordinate(item.x) || !hasCoordinate(item.y)) {
         item.x = nextX;
         item.y = top;
-        nextX += ORG_CARD_WIDTH + ORG_COLUMN_GAP;
+        nextX += metrics.width + metrics.columnGap;
         changed = true;
       }
     });
@@ -1957,17 +2157,18 @@ function matchesOrgReference(candidate, reference) {
 }
 
 function getOrgBoardSize(activePeople) {
+  const metrics = getOrgMetrics();
   const minWidth = Math.max(
     elements.orgChartBoard ? elements.orgChartBoard.clientWidth : 0,
-    ORG_CARD_WIDTH * 3 + ORG_BOARD_PADDING * 2
+    metrics.width * 3 + ORG_BOARD_PADDING * 2
   );
-  const minHeight = 420;
+  const minHeight = metrics.minHeight;
   const maxX = activePeople.reduce(
-    (result, item) => Math.max(result, item.x + ORG_CARD_WIDTH),
+    (result, item) => Math.max(result, item.x + metrics.width),
     ORG_BOARD_PADDING
   );
   const maxY = activePeople.reduce(
-    (result, item) => Math.max(result, item.y + ORG_CARD_HEIGHT),
+    (result, item) => Math.max(result, item.y + metrics.height),
     ORG_BOARD_PADDING
   );
 
@@ -2194,6 +2395,8 @@ function resetWorkspace() {
 
 function replaceState(nextState) {
   state.activeTab = nextState.activeTab;
+  state.orgChartView = nextState.orgChartView;
+  state.orgCardSize = nextState.orgCardSize;
   state.overview = nextState.overview;
   state.sectionChecks = nextState.sectionChecks;
   state.customColumns = nextState.customColumns;
@@ -2232,6 +2435,8 @@ function loadState() {
 function defaultState() {
   return normalizeState({
     activeTab: "plan",
+    orgChartView: "all",
+    orgCardSize: "standard",
     overview: {},
     sectionChecks: {},
     customColumns: defaultCustomColumns(),
@@ -2255,6 +2460,8 @@ function normalizeState(input) {
 
   return {
     activeTab: source.activeTab === "resources" ? "resources" : "plan",
+    orgChartView: orgChartViewOptions[source.orgChartView] ? source.orgChartView : "all",
+    orgCardSize: orgCardSizeOptions[source.orgCardSize] ? source.orgCardSize : "standard",
     overview: normalizeOverview(source.overview),
     sectionChecks: normalizeSectionChecks(source.sectionChecks),
     customColumns,

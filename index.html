@@ -420,8 +420,30 @@
             </div>
           </div>
 
-          <div class="org-board-shell">
-            <p class="org-board-note">Drag people cards to lay out the chart. Use the “Reports to” field below to draw the connections between both teams.</p>
+          <div class="org-toolbar">
+            <div class="org-toggle-group" role="tablist" aria-label="Org chart view">
+              <button type="button" class="org-toggle is-active" data-org-view="all" aria-selected="true">
+                Shared view
+              </button>
+              <button type="button" class="org-toggle" data-org-view="internal" aria-selected="false">
+                Our team
+              </button>
+              <button type="button" class="org-toggle" data-org-view="customer" aria-selected="false">
+                Customer team
+              </button>
+            </div>
+            <div class="org-toggle-group" role="group" aria-label="Org card size">
+              <button type="button" class="org-toggle" data-org-card-size="compact">
+                Compact cards
+              </button>
+              <button type="button" class="org-toggle is-active" data-org-card-size="standard">
+                Standard cards
+              </button>
+            </div>
+          </div>
+
+          <div id="orgBoardShell" class="org-board-shell">
+            <p id="orgBoardNote" class="org-board-note">Drag people cards to lay out the chart. Use the “Reports to” field below to draw the connections between both teams.</p>
             <div id="orgChartBoard" class="org-chart-board">
               <svg id="orgChartLines" class="org-chart-lines" aria-hidden="true"></svg>
               <div id="orgCardLayer" class="org-card-layer"></div>
