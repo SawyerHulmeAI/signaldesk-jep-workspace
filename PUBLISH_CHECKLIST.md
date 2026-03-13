@@ -6,7 +6,7 @@ Run these commands from this folder:
 
 ```bash
 git add .
-git commit -m "Build SignalDesk JEP workspace"
+git commit -m "Build Workroom collaboration workspace"
 ```
 
 ## 2. Create A GitHub Repo
@@ -16,13 +16,13 @@ Use GitHub web or GitHub CLI.
 Suggested repo name:
 
 ```text
-signaldesk-jep-workspace
+workroom
 ```
 
 If using GitHub CLI:
 
 ```bash
-gh repo create signaldesk-jep-workspace --private --source=. --remote=origin --push
+gh repo create workroom --private --source=. --remote=origin --push
 ```
 
 If you want it public, replace `--private` with `--public`.
