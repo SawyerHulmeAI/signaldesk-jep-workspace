@@ -1,37 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SignalDesk | Joint Execution Plan Template</title>
+    <title>Workroom | Shared Plan And Collaboration Room</title>
     <meta
       name="description"
-      content="SignalDesk is an internal joint execution plan workspace for account executives, sales engineers, and customer teams aligning on a shared plan."
+      content="Workroom is a shared collaboration workspace for mutual planning, shared resources, architecture references, and working files."
     />
-    <meta
-      property="og:title"
-      content="SignalDesk | Joint Execution Plan Template"
-    />
+    <meta property="og:title" content="Workroom" />
     <meta
       property="og:description"
-      content="A dark, professional joint execution plan workspace for internal account teams and customer alignment."
+      content="A shared plan and collaboration room for both teams and their stakeholders."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="SignalDesk" />
-    <meta name="twitter:card" content="summary" />
-    <meta
-      name="twitter:title"
-      content="SignalDesk | Joint Execution Plan Template"
-    />
+    <meta property="og:url" content="https://signaldesk-jep-workspace-7zwa.vercel.app/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Workroom" />
     <meta
       name="twitter:description"
-      content="A dark, professional joint execution plan workspace for internal account teams and customer alignment."
+      content="A shared plan and collaboration room for both teams and their stakeholders."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Sora:wght@600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Sora:wght@500;600;700&amp;display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -39,1067 +32,477 @@
   <body>
     <div class="page-backdrop" aria-hidden="true"></div>
 
-    <header class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">Internal JEP workspace</p>
-        <h1>SignalDesk</h1>
-        <p class="hero-text">
-          Run a cleaner joint execution plan across the account executive, sales
-          engineer, and customer team. Keep milestones, mutual criteria, next
-          steps, blockers, and account context in one internal workspace your
-          team can use to stay aligned with the customer.
+    <header class="app-header">
+      <section class="brand-block">
+        <p class="eyebrow">Shared deal collaboration</p>
+        <h1>Workroom</h1>
+        <p class="brand-copy">
+          A shared place for both teams to run the plan, exchange context, and keep the
+          right resources in one room.
         </p>
 
-        <nav class="anchor-nav" aria-label="Workspace sections">
-          <a href="#overviewPanel">Overview</a>
-          <a href="#milestonesPanel">Milestones</a>
-          <a href="#criteriaPanel">Criteria</a>
-          <a href="#executionPanel">Execution</a>
-          <a href="#foundationPanel">Context</a>
-        </nav>
-      </div>
-
-      <aside class="hero-metrics" aria-label="Program health snapshot">
-        <article class="metric-card">
-          <span id="completionMetric">0%</span>
-          <p>Milestones complete</p>
-        </article>
-        <article class="metric-card">
-          <span id="criteriaMetric">0 / 0</span>
-          <p>Criteria met</p>
-        </article>
-        <article class="metric-card">
-          <span id="actionsMetric">0</span>
-          <p>Open next steps</p>
-        </article>
-        <article class="metric-card">
-          <span id="issuesMetric">0</span>
-          <p>Active risks</p>
-        </article>
-        <article class="metric-card metric-wide">
-          <span id="checkpointMetric">No upcoming date</span>
-          <p>Next checkpoint</p>
-        </article>
-      </aside>
+        <div class="app-tabs" role="tablist" aria-label="Workspace views">
+          <button
+            type="button"
+            class="app-tab is-active"
+            data-tab="plan"
+            role="tab"
+            aria-selected="true"
+          >
+            <span class="app-tab-title">Joint Execution Plan</span>
+            <span class="app-tab-copy">
+              Run the mutual plan, success criteria, actions, and blockers.
+            </span>
+          </button>
+          <button
+            type="button"
+            class="app-tab"
+            data-tab="resources"
+            role="tab"
+            aria-selected="false"
+          >
+            <span class="app-tab-title">Resource Center</span>
+            <span class="app-tab-copy">
+              Store links, recordings, architecture, files, and working references.
+            </span>
+          </button>
+        </div>
+      </section>
     </header>
 
+    <section class="status-band">
+      <article class="sheet-card">
+        <div class="sheet-head compact-head">
+          <div>
+            <p id="statusKicker" class="sheet-kicker">Plan readiness</p>
+            <h2 id="statusTitle">Shared plan checkpoints</h2>
+          </div>
+          <span id="statusSummary" class="summary-label">0 / 0</span>
+        </div>
+        <div id="statusContent" class="checklist-grid"></div>
+      </article>
+
+      <aside class="header-side status-card">
+        <div class="metric-grid">
+          <article class="metric-card">
+            <span id="metricValue1">0%</span>
+            <p id="metricLabel1">Plan progress</p>
+          </article>
+          <article class="metric-card">
+            <span id="metricValue2">0 / 0</span>
+            <p id="metricLabel2">Criteria met</p>
+          </article>
+          <article class="metric-card">
+            <span id="metricValue3">0 / 0</span>
+            <p id="metricLabel3">Test steps done</p>
+          </article>
+          <article class="metric-card">
+            <span id="metricValue4">0</span>
+            <p id="metricLabel4">Open actions</p>
+          </article>
+        </div>
+
+        <div class="top-actions">
+          <button id="exportBtn" class="btn-primary" type="button">Export</button>
+          <label class="import-control">
+            <input id="importInput" type="file" accept="application/json" />
+            <span>Import</span>
+          </label>
+          <button id="resetTemplateBtn" class="btn-ghost" type="button">Reset Template</button>
+        </div>
+
+        <p id="workspaceMessage" class="workspace-message" aria-live="polite"></p>
+      </aside>
+
+      <article class="sheet-card legend-card">
+        <div class="sheet-head compact-head">
+          <div>
+            <p id="legendKicker" class="sheet-kicker">Signal key</p>
+            <h2 id="legendTitle">How to read the workspace</h2>
+          </div>
+        </div>
+        <div id="legendContent" class="legend-row"></div>
+        <p id="legendNote" class="legend-note"></p>
+        <div class="shared-channel-shell">
+          <label class="shared-channel-label" for="sharedSlackLink">
+            Shared Slack channel
+            <input
+              id="sharedSlackLink"
+              class="shared-channel-input"
+              data-overview-field="sharedSlackLink"
+              type="url"
+              placeholder="https://your-shared-channel-link"
+            />
+          </label>
+          <a
+            id="sharedSlackOpen"
+            class="shared-channel-link resource-preview-link is-disabled"
+            href="#"
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-disabled="true"
+          >
+            Open channel
+          </a>
+        </div>
+      </article>
+    </section>
+
     <main class="workspace">
-      <section class="panel process-panel">
-        <div class="section-heading">
-          <div>
-            <p class="section-kicker">Guided flow</p>
-            <h2>Run The Plan With A Shared Rhythm</h2>
+      <section class="tab-panel" data-tab-panel="plan">
+        <article class="sheet-card">
+          <div class="sheet-head">
+            <div>
+              <p class="sheet-kicker">Workspace overview</p>
+              <h2>Shared alignment snapshot</h2>
+              <p class="sheet-caption">Keep the account team, technical team, and customer team on the same page.</p>
+            </div>
           </div>
-          <p class="section-copy">
-            Use one lightweight plan from discovery through decision so the AE,
-            SE, and customer can stay aligned on owners, proof points, and next
-            steps.
-          </p>
-        </div>
-        <div id="processRail" class="process-rail"></div>
-      </section>
 
-      <section class="panel overview-panel" id="overviewPanel">
-        <div class="section-heading">
-          <div>
-            <p class="section-kicker">Plan setup</p>
-            <h2>Account Alignment</h2>
-          </div>
-          <p class="section-copy">
-            Define the account team, customer point of contact, motion, and
-            shared outcome before the joint execution plan starts drifting.
-          </p>
-        </div>
-
-        <form id="overviewForm" class="stack-form">
-          <div class="form-grid four-up">
+          <form id="overviewForm" class="overview-grid">
             <label>
               Account
               <input
                 id="accountName"
-                name="accountName"
+                data-overview-field="accountName"
                 type="text"
-                maxlength="80"
-                placeholder="Customer account"
-                required
+                placeholder="Company name"
               />
             </label>
-
             <label>
               Account executive
               <input
                 id="accountExecutive"
-                name="accountExecutive"
+                data-overview-field="accountExecutive"
                 type="text"
-                maxlength="80"
                 placeholder="AE owner"
-                required
               />
             </label>
-
             <label>
               Sales engineer
               <input
                 id="salesEngineer"
-                name="salesEngineer"
+                data-overview-field="salesEngineer"
                 type="text"
-                maxlength="80"
                 placeholder="SE owner"
               />
             </label>
-
             <label>
               Customer lead
               <input
                 id="customerLead"
-                name="customerLead"
+                data-overview-field="customerLead"
                 type="text"
-                maxlength="80"
-                placeholder="Customer sponsor or project lead"
+                placeholder="Primary customer contact"
               />
             </label>
-          </div>
-
-          <div class="form-grid three-up">
             <label>
-              Deal motion
+              Solution focus
               <input
                 id="solutionName"
-                name="solutionName"
+                data-overview-field="solutionName"
                 type="text"
-                maxlength="120"
-                placeholder="Pilot, POV, evaluation, expansion..."
-                required
+                placeholder="Primary use case or product"
               />
             </label>
-
             <label>
-              Current step
-              <select id="currentStage" name="currentStage">
+              Current motion
+              <select id="currentStage" data-overview-field="currentStage">
                 <option value="align">Align</option>
-                <option value="design">Plan</option>
+                <option value="scope">Scope</option>
                 <option value="validate">Validate</option>
-                <option value="decide">Advance</option>
+                <option value="decide">Decide</option>
               </select>
             </label>
-
             <label>
-              Plan health
-              <select id="programHealth" name="programHealth">
+              Overall health
+              <select id="programHealth" data-overview-field="programHealth">
                 <option value="on-track">On track</option>
-                <option value="at-risk">At risk</option>
-                <option value="blocked">Blocked</option>
+                <option value="watch">Watch</option>
+                <option value="risk">Risk</option>
               </select>
             </label>
-          </div>
-
-          <div class="form-grid two-up">
             <label>
-              Target close / decision date
-              <input id="decisionDate" name="decisionDate" type="date" />
+              Next decision date
+              <input id="decisionDate" data-overview-field="decisionDate" type="date" />
             </label>
-
-            <label>
-              Primary customer outcome
-              <input
-                id="primaryOutcome"
-                name="primaryOutcome"
-                type="text"
-                maxlength="160"
-                placeholder="What outcome does the customer need?"
-              />
-            </label>
-          </div>
-
-          <div class="form-grid two-up">
-            <label>
-              Mutual success criteria
+            <label class="wide-field">
+              Primary outcome
               <textarea
-                id="successDefinition"
-                name="successDefinition"
-                rows="5"
-                maxlength="1200"
-                placeholder="Describe what has to happen for the AE, SE, and customer to call this a win."
+                id="primaryOutcome"
+                data-overview-field="primaryOutcome"
+                rows="1"
+                placeholder="What both teams are trying to achieve"
               ></textarea>
             </label>
-
-            <label>
+            <label class="wide-field">
+              Shared success definition
+              <textarea
+                id="successDefinition"
+                data-overview-field="successDefinition"
+                rows="1"
+                placeholder="What must be true for this workstream to be considered successful"
+              ></textarea>
+            </label>
+            <label class="wide-field">
               Why now
               <textarea
                 id="whyNow"
-                name="whyNow"
-                rows="5"
-                maxlength="1200"
-                placeholder="What urgency, pain, or initiative is driving the deal right now?"
+                data-overview-field="whyNow"
+                rows="1"
+                placeholder="Timing, urgency, or business driver"
               ></textarea>
             </label>
-          </div>
-
-          <label>
-            Deal notes
-            <textarea
-              id="decisionNotes"
-              name="decisionNotes"
-              rows="4"
-              maxlength="1200"
-              placeholder="Capture decision process, commercial notes, internal context, and anything the team should not lose."
-            ></textarea>
-          </label>
-
-          <div class="tool-row">
-            <button type="submit" class="btn-primary">Save overview</button>
-            <button id="exportBtn" type="button" class="btn-secondary">
-              Export workspace
-            </button>
-            <label class="import-control">
-              <input id="importInput" type="file" accept="application/json" />
-              <span>Import workspace</span>
-            </label>
-            <button id="resetDemoBtn" type="button" class="btn-ghost">
-              Reload template
-            </button>
-          </div>
-
-          <p
-            id="overviewMessage"
-            class="form-message"
-            role="status"
-            aria-live="polite"
-          ></p>
-        </form>
-      </section>
-
-      <section class="panel snapshot-panel">
-        <div class="section-heading">
-          <div>
-            <p class="section-kicker">Operating snapshot</p>
-            <h2>What The Team Needs To See</h2>
-          </div>
-          <p class="section-copy">
-            Use this as the shared readout for the JEP: who owns what, what
-            still needs proof, and where alignment can break down.
-          </p>
-        </div>
-
-        <div class="snapshot-grid">
-          <article class="summary-card">
-            <p class="summary-label">Team alignment</p>
-            <div id="summaryAlignment" class="summary-body"></div>
-          </article>
-          <article class="summary-card">
-            <p class="summary-label">Mutual proof points</p>
-            <div id="summaryProof" class="summary-body"></div>
-          </article>
-          <article class="summary-card">
-            <p class="summary-label">Execution gaps</p>
-            <div id="summaryGaps" class="summary-body"></div>
-          </article>
-          <article class="summary-card">
-            <p class="summary-label">Decision path</p>
-            <div id="summaryDecision" class="summary-body"></div>
-          </article>
-        </div>
-      </section>
-
-      <section class="panel milestones-panel" id="milestonesPanel">
-        <div class="section-heading">
-          <div>
-            <p class="section-kicker">Shared tracker</p>
-            <h2>Milestones And Owners</h2>
-          </div>
-          <p class="section-copy">
-            Keep the joint plan visible without forcing the team to manage a
-            spreadsheet grid.
-          </p>
-        </div>
-
-        <div class="panel-split">
-          <form id="milestoneForm" class="stack-form editor-card">
-            <input id="milestoneId" name="milestoneId" type="hidden" />
-
-            <div class="subpanel-heading">
-              <h3>Milestone editor</h3>
-              <p>Use this for customer checkpoints, internal gates, and decision dates.</p>
-            </div>
-
-            <div class="form-grid two-up">
-              <label>
-                Phase
-                <select id="milestonePhase" name="phase">
-                  <option value="Discovery">Discovery</option>
-                  <option value="Mutual Plan">Mutual Plan</option>
-                  <option value="Validation">Validation</option>
-                  <option value="Decision">Decision</option>
-                </select>
-              </label>
-
-              <label>
-                Status
-                <select id="milestoneStatus" name="status">
-                  <option value="not-started">Not started</option>
-                  <option value="on-track">On track</option>
-                  <option value="at-risk">At risk</option>
-                  <option value="blocked">Blocked</option>
-                  <option value="complete">Complete</option>
-                </select>
-              </label>
-            </div>
-
-            <label>
-              Stage
-              <input
-                id="milestoneStage"
-                name="stage"
-                type="text"
-                maxlength="80"
-                placeholder="Discovery, workshop, exec review..."
-                required
-              />
-            </label>
-
-            <label>
-              Task
-              <input
-                id="milestoneTask"
-                name="task"
-                type="text"
-                maxlength="160"
-                placeholder="Customer goals aligned"
-                required
-              />
-            </label>
-
-            <div class="form-grid two-up">
-              <label>
-                Owner
-                <input
-                  id="milestoneOwner"
-                  name="owner"
-                  type="text"
-                  maxlength="80"
-                  placeholder="AE, SE, customer, joint owner..."
-                />
-              </label>
-
-              <label>
-                Planned window
-                <input
-                  id="milestoneWindow"
-                  name="plannedWindow"
-                  type="text"
-                  maxlength="40"
-                  placeholder="This week, before workshop, after demo..."
-                />
-              </label>
-            </div>
-
-            <label>
-              Due date
-              <input id="milestoneDueDate" name="dueDate" type="date" />
-            </label>
-
-            <label>
-              Notes
+            <label class="wide-field">
+              Decision notes
               <textarea
-                id="milestoneNotes"
-                name="notes"
-                rows="4"
-                maxlength="1000"
-                placeholder="What needs to happen, what changed, or why this is at risk."
+                id="decisionNotes"
+                data-overview-field="decisionNotes"
+                rows="1"
+                placeholder="Anything the team should keep visible as decisions get made"
               ></textarea>
             </label>
-
-            <div class="editor-actions">
-              <button type="submit" class="btn-primary">Save milestone</button>
-              <button
-                id="cancelMilestoneEdit"
-                type="button"
-                class="btn-secondary"
-              >
-                Clear
-              </button>
-            </div>
           </form>
+        </article>
 
-          <div class="list-shell">
-            <div class="list-controls">
-              <label>
-                Phase
-                <select id="milestonePhaseFilter">
-                  <option value="all">All phases</option>
-                  <option value="Discovery">Discovery</option>
-                  <option value="Mutual Plan">Mutual Plan</option>
-                  <option value="Validation">Validation</option>
-                  <option value="Decision">Decision</option>
-                </select>
-              </label>
+        <article class="sheet-card">
+          <div class="sheet-head">
+            <div>
+              <p class="sheet-kicker">Joint plan</p>
+              <h2>Milestones, owners, and checkpoints</h2>
+              <p class="sheet-caption">Use one shared grid for the sequence of work both teams are actively running.</p>
+            </div>
+            <div class="sheet-head-actions">
+              <button id="addPlanRow" class="btn-secondary" type="button">Add Row</button>
+              <button id="addPlanColumn" class="btn-ghost" type="button">Add Column</button>
+            </div>
+          </div>
 
-              <label>
-                Status
-                <select id="milestoneStatusFilter">
-                  <option value="all">All statuses</option>
-                  <option value="not-started">Not started</option>
-                  <option value="on-track">On track</option>
-                  <option value="at-risk">At risk</option>
-                  <option value="blocked">Blocked</option>
-                  <option value="complete">Complete</option>
-                </select>
-              </label>
+          <div class="table-shell">
+            <table class="sheet-table">
+              <thead>
+                <tr id="planTableHead"></tr>
+              </thead>
+              <tbody id="planTableBody"></tbody>
+            </table>
+          </div>
+        </article>
 
-              <label>
-                Search
-                <input
-                  id="milestoneSearch"
-                  type="search"
-                  placeholder="Search stage, task, owner, notes"
-                />
-              </label>
+        <article class="sheet-card">
+          <div class="sheet-head">
+            <div>
+              <p class="sheet-kicker">Success criteria</p>
+              <h2>Mutual proof points</h2>
+              <p class="sheet-caption">Track business, technical, and buying outcomes that need to be validated.</p>
+            </div>
+            <div class="sheet-head-actions">
+              <button id="addCriteriaRow" class="btn-secondary" type="button">Add Row</button>
+              <button id="addCriteriaColumn" class="btn-ghost" type="button">Add Column</button>
+            </div>
+          </div>
+
+          <div class="table-shell">
+            <table class="sheet-table">
+              <thead>
+                <tr id="criteriaTableHead"></tr>
+              </thead>
+              <tbody id="criteriaTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <section class="split-grid">
+          <article class="sheet-card">
+            <div class="sheet-head">
+              <div>
+                <p class="sheet-kicker">Validation steps</p>
+                <h2>Test plan</h2>
+                <p class="sheet-caption">Map proof to specific steps, outcomes, and exceptions.</p>
+              </div>
+              <div class="sheet-head-actions">
+                <button id="addTestPlanRow" class="btn-secondary" type="button">Add Row</button>
+                <button id="addTestPlanColumn" class="btn-ghost" type="button">Add Column</button>
+              </div>
             </div>
 
-            <div id="milestoneList" class="record-list" aria-live="polite"></div>
+            <div class="table-shell">
+              <table class="sheet-table">
+                <thead>
+                  <tr id="testPlanTableHead"></tr>
+                </thead>
+                <tbody id="testPlanTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="sheet-card">
+            <div class="sheet-head">
+              <div>
+                <p class="sheet-kicker">Operating queue</p>
+                <h2>Next actions</h2>
+                <p class="sheet-caption">Keep the next handoff, ask, or follow-up visible.</p>
+              </div>
+              <div class="sheet-head-actions">
+                <button id="addActionRow" class="btn-secondary" type="button">Add Row</button>
+                <button id="addActionColumn" class="btn-ghost" type="button">Add Column</button>
+              </div>
+            </div>
+
+            <div class="table-shell">
+              <table class="sheet-table">
+                <thead>
+                  <tr id="actionsTableHead"></tr>
+                </thead>
+                <tbody id="actionsTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="split-grid">
+          <article class="sheet-card">
+            <div class="sheet-head">
+              <div>
+                <p class="sheet-kicker">Decision blockers</p>
+                <h2>Risks and gaps</h2>
+                <p class="sheet-caption">Separate blockers from normal next steps so risk stays visible.</p>
+              </div>
+              <div class="sheet-head-actions">
+                <button id="addBlockerRow" class="btn-secondary" type="button">Add Row</button>
+                <button id="addBlockerColumn" class="btn-ghost" type="button">Add Column</button>
+              </div>
+            </div>
+
+            <div class="table-shell">
+              <table class="sheet-table">
+                <thead>
+                  <tr id="blockersTableHead"></tr>
+                </thead>
+                <tbody id="blockersTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="sheet-card">
+            <div class="sheet-head">
+              <div>
+                <p class="sheet-kicker">Context</p>
+                <h2>Shared notes and assumptions</h2>
+                <p class="sheet-caption">Capture business context, technical details, and decision assumptions in one place.</p>
+              </div>
+              <div class="sheet-head-actions">
+                <button id="addContextRow" class="btn-secondary" type="button">Add Row</button>
+                <button id="addContextColumn" class="btn-ghost" type="button">Add Column</button>
+              </div>
+            </div>
+
+            <div class="table-shell">
+              <table class="sheet-table">
+                <thead>
+                  <tr id="contextTableHead"></tr>
+                </thead>
+                <tbody id="contextTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <article class="sheet-card">
+          <div class="sheet-head">
+            <div>
+              <p class="sheet-kicker">Team map</p>
+              <h2>Mutual org chart and responsibilities</h2>
+              <p class="sheet-caption">Drag cards to map the org, then use the people table below for titles, email, responsibilities, and notes that help both teams work the motion.</p>
+            </div>
+            <div class="sheet-head-actions">
+              <button id="addOrgMapRow" class="btn-secondary" type="button">Add Person</button>
+              <button id="addOrgMapColumn" class="btn-ghost" type="button">Add Column</button>
+            </div>
           </div>
-        </div>
+
+          <div class="org-board-shell">
+            <p class="org-board-note">Drag people cards to lay out the chart. Use the “Reports to” field below to draw the connections between both teams.</p>
+            <div id="orgChartBoard" class="org-chart-board">
+              <svg id="orgChartLines" class="org-chart-lines" aria-hidden="true"></svg>
+              <div id="orgCardLayer" class="org-card-layer"></div>
+            </div>
+          </div>
+
+          <div class="table-shell">
+            <table class="sheet-table">
+              <thead>
+                <tr id="orgMapTableHead"></tr>
+              </thead>
+              <tbody id="orgMapTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="sheet-card">
+          <div class="sheet-head">
+            <div>
+              <p class="sheet-kicker">Visual references</p>
+              <h2>Diagrams, screenshots, and image uploads</h2>
+              <p class="sheet-caption">Upload architecture diagrams, system views, and other visuals. Each image includes its own notes section so questions, context, and decisions stay attached to the visual.</p>
+            </div>
+            <div class="sheet-head-actions">
+              <label class="import-control">
+                <input id="diagramInput" type="file" accept="image/*" multiple />
+                <span>Upload Images</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="visualGallery" class="visual-grid"></div>
+        </article>
       </section>
 
-      <section class="panel validation-panel" id="criteriaPanel">
-        <div class="section-heading">
-          <div>
-            <p class="section-kicker">Validation</p>
-            <h2>Mutual Criteria And Workstreams</h2>
+      <section class="tab-panel is-hidden" data-tab-panel="resources">
+        <article class="sheet-card">
+          <div class="sheet-head">
+            <div>
+              <p class="sheet-kicker">Shared room</p>
+              <h2>Resources and learning links</h2>
+              <p class="sheet-caption">Store shared explainers, videos, blogs, recordings, files, and working references in one room. Links and uploaded documents both live here so the room is easy to scan.</p>
+            </div>
+            <div class="sheet-head-actions">
+              <button id="addResourceRow" class="btn-secondary" type="button">Add Row</button>
+              <button id="addResourceColumn" class="btn-ghost" type="button">Add Column</button>
+            </div>
           </div>
-          <p class="section-copy">
-            Keep the mutual criteria next to the workstreams the team will run
-            so validation stays connected to the plan.
-          </p>
-        </div>
 
-        <div class="dual-panel">
-          <div class="subpanel">
-            <div class="subpanel-heading">
-              <h3>Mutual criteria</h3>
-              <p>Track the business, technical, and buying outcomes that move the deal forward.</p>
+          <div class="table-shell">
+            <table class="sheet-table">
+              <thead>
+                <tr id="resourcesTableHead"></tr>
+              </thead>
+              <tbody id="resourcesTableBody"></tbody>
+            </table>
+          </div>
+
+          <div id="resourcePreviewGrid" class="resource-preview-grid"></div>
+
+          <div class="document-upload-shell">
+            <div class="sheet-head compact-head">
+              <div>
+                <p class="sheet-kicker">Shared files</p>
+                <h2>PDFs, signed contracts, and shared documents</h2>
+                <p class="sheet-caption">Upload the actual files the team needs to reference, including signed contracts, PDFs, proposals, and other working documents.</p>
+              </div>
+              <div class="sheet-head-actions">
+                <label class="import-control">
+                  <input id="documentInput" type="file" multiple />
+                  <span>Upload Files</span>
+                </label>
+              </div>
             </div>
 
-            <form id="criteriaForm" class="stack-form editor-card narrow-editor">
-              <input id="criteriaId" name="criteriaId" type="hidden" />
-
-              <label>
-                Criterion
-                <input
-                  id="criteriaUseCase"
-                  name="useCase"
-                  type="text"
-                  maxlength="180"
-                  placeholder="Customer outcome, technical proof point, buying milestone..."
-                  required
-                />
-              </label>
-
-              <div class="form-grid three-up">
-                <label>
-                  Importance
-                  <select id="criteriaImportance" name="importance">
-                    <option value="critical">Critical</option>
-                    <option value="high">High</option>
-                    <option value="medium">Medium</option>
-                    <option value="low">Low</option>
-                  </select>
-                </label>
-
-                <label>
-                  Needs validation task
-                  <select id="criteriaNeedsPlan" name="requiresTestPlan">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                  </select>
-                </label>
-
-                <label>
-                  Status
-                  <select id="criteriaStatus" name="status">
-                    <option value="not-tested">Not reviewed</option>
-                    <option value="watch">In review</option>
-                    <option value="pass">Met</option>
-                    <option value="fail">Missed</option>
-                  </select>
-                </label>
-              </div>
-
-              <label>
-                Target / proof needed
-                <textarea
-                  id="criteriaMetricTarget"
-                  name="metricTarget"
-                  rows="4"
-                  maxlength="1200"
-                  placeholder="What would count as proof that this criterion is met?"
-                ></textarea>
-              </label>
-
-              <div class="form-grid two-up">
-                <label>
-                  Owner / verified by
-                  <input
-                    id="criteriaVerifiedBy"
-                    name="verifiedBy"
-                    type="text"
-                    maxlength="80"
-                    placeholder="AE, SE, customer lead..."
-                  />
-                </label>
-
-                <label>
-                  Notes
-                  <textarea
-                    id="criteriaNotes"
-                    name="notes"
-                    rows="3"
-                    maxlength="800"
-                    placeholder="Notes, objections, dependencies, or evidence."
-                  ></textarea>
-                </label>
-              </div>
-
-              <div class="editor-actions">
-                <button type="submit" class="btn-primary">Save criterion</button>
-                <button id="cancelCriteriaEdit" type="button" class="btn-secondary">
-                  Clear
-                </button>
-              </div>
-            </form>
-
-            <div id="criteriaList" class="card-grid" aria-live="polite"></div>
+            <div id="documentGallery" class="document-grid"></div>
           </div>
-
-          <div class="subpanel">
-            <div class="subpanel-heading">
-              <h3>Execution workstreams</h3>
-              <p>Use this for workshops, demos, technical proof, commercial review, and follow-up work.</p>
-            </div>
-
-            <form id="testTaskForm" class="stack-form editor-card narrow-editor">
-              <input id="testTaskId" name="testTaskId" type="hidden" />
-
-              <div class="form-grid two-up">
-                <label>
-                  Phase
-                  <select id="testTaskPhase" name="phase">
-                    <option value="Discovery">Discovery</option>
-                    <option value="Mutual Plan">Mutual Plan</option>
-                    <option value="Validation">Validation</option>
-                    <option value="Decision">Decision</option>
-                  </select>
-                </label>
-
-                <label>
-                  Status
-                  <select id="testTaskStatus" name="status">
-                    <option value="not-started">Not started</option>
-                    <option value="in-progress">In progress</option>
-                    <option value="blocked">Blocked</option>
-                    <option value="complete">Complete</option>
-                  </select>
-                </label>
-              </div>
-
-              <label>
-                Stage
-                <input
-                  id="testTaskStage"
-                  name="stage"
-                  type="text"
-                  maxlength="80"
-                  placeholder="Workshop, demo, security review..."
-                  required
-                />
-              </label>
-
-              <label>
-                Task
-                <input
-                  id="testTaskTitle"
-                  name="task"
-                  type="text"
-                  maxlength="180"
-                  placeholder="Run technical deep dive"
-                  required
-                />
-              </label>
-
-              <div class="form-grid three-up">
-                <label>
-                  Assignee
-                  <input
-                    id="testTaskAssignee"
-                    name="assignee"
-                    type="text"
-                    maxlength="80"
-                    placeholder="Owner"
-                  />
-                </label>
-
-                <label>
-                  Start date
-                  <input id="testTaskStartDate" name="startDate" type="date" />
-                </label>
-
-                <label>
-                  Duration
-                  <input
-                    id="testTaskDuration"
-                    name="duration"
-                    type="text"
-                    maxlength="40"
-                    placeholder="2 days, 1 week..."
-                  />
-                </label>
-              </div>
-
-              <label class="checkbox-row">
-                <input id="testTaskMilestone" name="isMilestone" type="checkbox" />
-                Mark as a key checkpoint
-              </label>
-
-              <label>
-                Notes
-                <textarea
-                  id="testTaskNotes"
-                  name="notes"
-                  rows="4"
-                  maxlength="800"
-                  placeholder="Dependencies, prep items, or caveats."
-                ></textarea>
-              </label>
-
-              <div class="editor-actions">
-                <button type="submit" class="btn-primary">Save task</button>
-                <button id="cancelTestTaskEdit" type="button" class="btn-secondary">
-                  Clear
-                </button>
-              </div>
-            </form>
-
-            <div id="testTaskList" class="record-list compact-list" aria-live="polite"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel execution-panel" id="executionPanel">
-        <div class="section-heading">
-          <div>
-            <p class="section-kicker">Execution control</p>
-            <h2>Next Steps And Risks</h2>
-          </div>
-          <p class="section-copy">
-            The plan works best when next steps and blockers are explicit,
-            current, and clearly owned.
-          </p>
-        </div>
-
-        <div class="dual-panel">
-          <div class="subpanel">
-            <div class="subpanel-heading">
-              <h3>Next actions</h3>
-              <p>Use this as the operating queue for the next internal or customer touchpoint.</p>
-            </div>
-
-            <form id="actionForm" class="stack-form editor-card narrow-editor">
-              <input id="actionId" name="actionId" type="hidden" />
-
-              <label>
-                Next action
-                <input
-                  id="actionTitle"
-                  name="title"
-                  type="text"
-                  maxlength="180"
-                  placeholder="Confirm mutual success criteria"
-                  required
-                />
-              </label>
-
-              <div class="form-grid two-up">
-                <label>
-                  Owner
-                  <input
-                    id="actionOwner"
-                    name="owner"
-                    type="text"
-                    maxlength="80"
-                    placeholder="Owner"
-                  />
-                </label>
-
-                <label>
-                  Status
-                  <select id="actionStatus" name="status">
-                    <option value="open">Open</option>
-                    <option value="in-progress">In progress</option>
-                    <option value="waiting">Waiting</option>
-                    <option value="done">Done</option>
-                  </select>
-                </label>
-              </div>
-
-              <div class="form-grid two-up">
-                <label>
-                  Created
-                  <input id="actionCreatedDate" name="createdDate" type="date" />
-                </label>
-
-                <label>
-                  Due
-                  <input id="actionDueDate" name="dueDate" type="date" />
-                </label>
-              </div>
-
-              <label>
-                Notes
-                <textarea
-                  id="actionNotes"
-                  name="notes"
-                  rows="4"
-                  maxlength="900"
-                  placeholder="Clarify what the action should produce."
-                ></textarea>
-              </label>
-
-              <div class="editor-actions">
-                <button type="submit" class="btn-primary">Save action</button>
-                <button id="cancelActionEdit" type="button" class="btn-secondary">
-                  Clear
-                </button>
-              </div>
-            </form>
-
-            <div id="actionList" class="record-list compact-list" aria-live="polite"></div>
-          </div>
-
-          <div class="subpanel">
-            <div class="subpanel-heading">
-              <h3>Risk register</h3>
-              <p>Track blockers separately from next steps so real deal risks stay visible.</p>
-            </div>
-
-            <form id="issueForm" class="stack-form editor-card narrow-editor">
-              <input id="issueId" name="issueId" type="hidden" />
-
-              <label>
-                Risk title
-                <input
-                  id="issueTitle"
-                  name="title"
-                  type="text"
-                  maxlength="180"
-                  placeholder="Customer timeline unclear"
-                  required
-                />
-              </label>
-
-              <div class="form-grid three-up">
-                <label>
-                  Owner
-                  <input
-                    id="issueOwner"
-                    name="owner"
-                    type="text"
-                    maxlength="80"
-                    placeholder="Owner"
-                  />
-                </label>
-
-                <label>
-                  Status
-                  <select id="issueStatus" name="status">
-                    <option value="open">Open</option>
-                    <option value="mitigating">Mitigating</option>
-                    <option value="blocked">Blocked</option>
-                    <option value="resolved">Resolved</option>
-                  </select>
-                </label>
-
-                <label>
-                  Impact
-                  <select id="issueImpact" name="impact">
-                    <option value="high">High</option>
-                    <option value="medium">Medium</option>
-                    <option value="low">Low</option>
-                  </select>
-                </label>
-              </div>
-
-              <label>
-                Created
-                <input id="issueCreatedDate" name="createdDate" type="date" />
-              </label>
-
-              <label>
-                Notes
-                <textarea
-                  id="issueNotes"
-                  name="notes"
-                  rows="4"
-                  maxlength="900"
-                  placeholder="What is happening, why it matters, and what needs to unblock it."
-                ></textarea>
-              </label>
-
-              <div class="editor-actions">
-                <button type="submit" class="btn-primary">Save risk</button>
-                <button id="cancelIssueEdit" type="button" class="btn-secondary">
-                  Clear
-                </button>
-              </div>
-            </form>
-
-            <div id="issueList" class="record-list compact-list" aria-live="polite"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel foundation-panel" id="foundationPanel">
-        <div class="section-heading">
-          <div>
-            <p class="section-kicker">Customer context</p>
-            <h2>Discovery, Environment, And Assumptions</h2>
-          </div>
-          <p class="section-copy">
-            Keep discovery, technical notes, and assumptions in the same place
-            as the JEP so internal context stays attached to the account.
-          </p>
-        </div>
-
-        <div class="triple-panel">
-          <div class="subpanel">
-            <div class="subpanel-heading">
-              <h3>Discovery prompts</h3>
-              <p>Keep business, technical, and buying discovery in one answer bank.</p>
-            </div>
-
-            <form id="discoveryForm" class="stack-form editor-card narrow-editor">
-              <input id="discoveryId" name="discoveryId" type="hidden" />
-
-              <div class="form-grid two-up">
-                <label>
-                  Category
-                  <input
-                    id="discoveryCategory"
-                    name="category"
-                    type="text"
-                    maxlength="80"
-                    placeholder="Stakeholders, business goals, workflow..."
-                    required
-                  />
-                </label>
-
-                <label class="checkbox-row">
-                  <input id="discoveryImportant" name="important" type="checkbox" />
-                  Mark as required for alignment
-                </label>
-              </div>
-
-              <label>
-                Question
-                <textarea
-                  id="discoveryQuestion"
-                  name="question"
-                  rows="4"
-                  maxlength="1200"
-                  placeholder="What do we need answered?"
-                  required
-                ></textarea>
-              </label>
-
-              <label>
-                Answer
-                <textarea
-                  id="discoveryAnswer"
-                  name="answer"
-                  rows="4"
-                  maxlength="1200"
-                  placeholder="Capture the current answer or leave blank until confirmed."
-                ></textarea>
-              </label>
-
-              <div class="editor-actions">
-                <button type="submit" class="btn-primary">Save prompt</button>
-                <button
-                  id="cancelDiscoveryEdit"
-                  type="button"
-                  class="btn-secondary"
-                >
-                  Clear
-                </button>
-              </div>
-            </form>
-
-            <div id="discoveryList" class="record-list compact-list" aria-live="polite"></div>
-          </div>
-
-          <div class="subpanel">
-            <div class="subpanel-heading">
-              <h3>Current environment</h3>
-              <p>Summarize the current workflow, tools, or systems involved in the deal.</p>
-            </div>
-
-            <form id="architectureForm" class="stack-form editor-card narrow-editor">
-              <input id="architectureId" name="architectureId" type="hidden" />
-
-              <label>
-                Workflow / system
-                <input
-                  id="architectureSystem"
-                  name="system"
-                  type="text"
-                  maxlength="80"
-                  placeholder="Current CRM workflow"
-                  required
-                />
-              </label>
-
-              <label>
-                Role today
-                <textarea
-                  id="architectureRole"
-                  name="role"
-                  rows="4"
-                  maxlength="900"
-                  placeholder="What this workflow, system, or process does today."
-                ></textarea>
-              </label>
-
-              <label>
-                Strengths
-                <textarea
-                  id="architectureStrengths"
-                  name="strengths"
-                  rows="3"
-                  maxlength="700"
-                  placeholder="What works well today."
-                ></textarea>
-              </label>
-
-              <label>
-                Friction / constraints
-                <textarea
-                  id="architectureConstraints"
-                  name="constraints"
-                  rows="3"
-                  maxlength="700"
-                  placeholder="What creates friction, risk, delay, or cost."
-                ></textarea>
-              </label>
-
-              <div class="editor-actions">
-                <button type="submit" class="btn-primary">Save system</button>
-                <button
-                  id="cancelArchitectureEdit"
-                  type="button"
-                  class="btn-secondary"
-                >
-                  Clear
-                </button>
-              </div>
-            </form>
-
-            <div id="architectureList" class="card-grid compact-cards" aria-live="polite"></div>
-          </div>
-
-          <div class="subpanel">
-            <div class="subpanel-heading">
-              <h3>Shared assumptions</h3>
-              <p>Capture scope assumptions, dependencies, and things the deal team is working off of.</p>
-            </div>
-
-            <form id="sizingForm" class="stack-form editor-card narrow-editor">
-              <input id="sizingId" name="sizingId" type="hidden" />
-
-              <div class="form-grid two-up">
-                <label>
-                  Phase
-                  <select id="sizingPhase" name="phase">
-                    <option value="Discovery">Discovery</option>
-                    <option value="Mutual Plan">Mutual Plan</option>
-                    <option value="Validation">Validation</option>
-                    <option value="Decision">Decision</option>
-                  </select>
-                </label>
-
-                <label>
-                  Assumption / dependency
-                  <input
-                    id="sizingComponent"
-                    name="component"
-                    type="text"
-                    maxlength="80"
-                    placeholder="Security review is required"
-                    required
-                  />
-                </label>
-              </div>
-
-              <div class="form-grid three-up">
-                <label>
-                  Owner / detail
-                  <input
-                    id="sizingConfiguration"
-                    name="configuration"
-                    type="text"
-                    maxlength="120"
-                    placeholder="AE, SE, customer, legal..."
-                  />
-                </label>
-
-                <label>
-                  Status
-                  <input
-                    id="sizingStorage"
-                    name="storage"
-                    type="text"
-                    maxlength="120"
-                    placeholder="Open, confirmed, blocked..."
-                  />
-                </label>
-
-                <label>
-                  Priority
-                  <input
-                    id="sizingCount"
-                    name="count"
-                    type="number"
-                    min="1"
-                    max="5"
-                    step="1"
-                    placeholder="3"
-                  />
-                </label>
-              </div>
-
-              <label>
-                Notes
-                <textarea
-                  id="sizingNotes"
-                  name="notes"
-                  rows="4"
-                  maxlength="700"
-                  placeholder="Context, assumption detail, or what still needs validation."
-                ></textarea>
-              </label>
-
-              <div class="editor-actions">
-                <button type="submit" class="btn-primary">Save assumption</button>
-                <button id="cancelSizingEdit" type="button" class="btn-secondary">
-                  Clear
-                </button>
-              </div>
-            </form>
-
-            <div id="sizingList" class="record-list compact-list" aria-live="polite"></div>
-          </div>
-        </div>
+        </article>
       </section>
     </main>
 
-    <script src="app.js" defer></script>
+    <script src="app.js"></script>
   </body>
 </html>
